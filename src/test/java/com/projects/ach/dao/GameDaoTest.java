@@ -92,5 +92,5 @@ public class GameDaoTest {
 
 		assertThat(game.getWinner()).isEqualTo(player1);
 	}
-
+	
 }

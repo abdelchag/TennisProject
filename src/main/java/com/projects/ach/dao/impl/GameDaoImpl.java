@@ -26,9 +26,9 @@ public class GameDaoImpl implements IGameDao {
 
 	@Override
 	public Player getThisPlayer(Game game, String playerName) {
-		if(playerName.equalsIgnoreCase(game.getPlayer1().getName())){
+		if (playerName.equalsIgnoreCase(game.getPlayer1().getName())) {
 			return game.getPlayer1();
-		}else if(playerName.equalsIgnoreCase(game.getPlayer2().getName())){
+		} else if (playerName.equalsIgnoreCase(game.getPlayer2().getName())) {
 			return game.getPlayer2();
 		}
 		return null;
@@ -36,9 +36,9 @@ public class GameDaoImpl implements IGameDao {
 
 	@Override
 	public Player getOtherPlayer(Game game, String playerName) {
-		if(playerName.equalsIgnoreCase(game.getPlayer1().getName())){
+		if (playerName.equalsIgnoreCase(game.getPlayer1().getName())) {
 			return game.getPlayer2();
-		}else if(playerName.equalsIgnoreCase(game.getPlayer2().getName())){
+		} else if (playerName.equalsIgnoreCase(game.getPlayer2().getName())) {
 			return game.getPlayer1();
 		}
 		return null;
@@ -47,7 +47,8 @@ public class GameDaoImpl implements IGameDao {
 	@Override
 	public void putWinner(Game game, Player player) {
 		game.setWinner(player);
-		
+
 	}
+
 
 }

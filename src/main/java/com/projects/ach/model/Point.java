@@ -9,24 +9,24 @@ package com.projects.ach.model;
  */
 public enum Point {
 
-	P0(0), P15(15), P30(30), P40(40), PWIN(0);
+	P0("0"), P15("15"), P30("30"), P40("40"), PWIN("0"), PADV("ADV"), PDEUCE("DEUCE");
 
-	private Integer value;
+	private String value;
 
-	public Integer getValue() {
+	public String getValue() {
 		return value;
 	}
 
-	private Point(Integer value) {
+	private Point(String value) {
 		this.value = value;
 	}
 
 	public Point getNextPoint() {
 		int ordinal = this.ordinal();
 		Point[] allPoints = values();
-		if(this == Point.PWIN){
+		if (ordinal >= 4) {
 			return null;
-		}else{
+		} else {
 			return allPoints[ordinal + 1];
 		}
 

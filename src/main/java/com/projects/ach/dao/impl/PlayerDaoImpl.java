@@ -29,30 +29,50 @@ public class PlayerDaoImpl implements IPlayerDao {
 	@Override
 	public void addPointWinner(Player player) {
 		Game game = player.getGame();
-		List<Point> pointPlayerWon = null;
+
+		List<Point> pointsPlayerWon = null;
+		List<Point> pointsPlayerLoose = null;
 		if (game.getPlayer1().getName().equals(player.getName())) {
-			pointPlayerWon = game.getPointsPlayer1();
+			pointsPlayerWon = game.getPointsPlayer1();
+			pointsPlayerLoose = game.getPointsPlayer2();
 		} else {
-			pointPlayerWon = game.getPointsPlayer2();
+			pointsPlayerWon = game.getPointsPlayer2();
+			pointsPlayerLoose = game.getPointsPlayer1();
 		}
 
-		Point lastPointWinner = pointPlayerWon.get(pointPlayerWon.size() - 1);
-		pointPlayerWon.add(lastPointWinner.getNextPoint());
+		Point lastPointWinner = pointsPlayerWon.get(pointsPlayerWon.size() - 1);
+		Point lastPointLooser = pointsPlayerLoose.get(pointsPlayerLoose.size() - 1);
+		if ((lastPointWinner == Point.P40 && lastPointLooser == Point.P40)
+				|| (lastPointWinner == Point.PDEUCE && lastPointLooser == Point.PDEUCE)) {
+			pointsPlayerWon.add(Point.PADV);
+		} else if (lastPointWinner == Point.PADV) {
+			pointsPlayerWon.add(Point.PWIN);
+		} else if (lastPointWinner == Point.P40 && lastPointLooser == Point.PADV) {
+			pointsPlayerWon.add(Point.PDEUCE);
+		} else {
+			pointsPlayerWon.add(lastPointWinner.getNextPoint());
+		}
 	}
 
 	@Override
 	public void addPointLooser(Player player) {
 		Game game = player.getGame();
-		List<Point> pointPlayerLoose = null;
+		List<Point> pointsPlayerLoose = null;
+		List<Point> pointsPlayerWon = null;
 		if (game.getPlayer1().getName().equals(player.getName())) {
-			pointPlayerLoose = game.getPointsPlayer1();
+			pointsPlayerLoose = game.getPointsPlayer1();
+			pointsPlayerWon = game.getPointsPlayer2();
 		} else {
-			pointPlayerLoose = game.getPointsPlayer2();
+			pointsPlayerLoose = game.getPointsPlayer2();
+			pointsPlayerWon = game.getPointsPlayer1();
 		}
 
-		Point lastPointLooser = pointPlayerLoose.get(pointPlayerLoose.size() - 1);
-		pointPlayerLoose.add(lastPointLooser);
-
+		if(pointsPlayerWon.get(pointsPlayerWon.size() - 1) == Point.PDEUCE){
+			pointsPlayerLoose.add(Point.PDEUCE);
+		}else{
+			Point lastPointLooser = pointsPlayerLoose.get(pointsPlayerLoose.size() - 1);
+			pointsPlayerLoose.add(lastPointLooser);
+		}
 	}
 
 	@Override

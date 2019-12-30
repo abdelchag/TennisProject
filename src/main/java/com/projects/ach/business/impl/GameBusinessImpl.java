@@ -10,6 +10,7 @@ import com.projects.ach.dao.IGameDao;
 import com.projects.ach.dao.IPlayerDao;
 import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
+import com.projects.ach.model.Point;
 
 /**
  * @author ABDELCHAG
@@ -37,6 +38,7 @@ public class GameBusinessImpl implements IGameBusiness {
 	public void winPoint(Game game, Player playerWon) {
 		Player playerWonGame = gameDao.getThisPlayer(game, playerWon.getName());
 		Player playerLooseGame = gameDao.getOtherPlayer(game, playerWon.getName());
+		
 		playerDao.addPointWinner(playerWonGame);
 		playerDao.addPointLooser(playerLooseGame);
 		
