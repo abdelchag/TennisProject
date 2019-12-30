@@ -80,4 +80,28 @@ public class PlayerDaoTest {
 		assertThat(Point.P0).isEqualTo(player.getGame().getPointsPlayer1().get(2));
 	}
 	
+	@Test
+	public void testIsWinGameFalse(){
+		String playerTest = "PlayerTest";
+		Player player = playerDao.initPlayer(playerTest);
+		playerDao.addPointWinner(player);
+		playerDao.addPointWinner(player);
+		
+		boolean isWin = playerDao.isWinGame(player);
+		assertThat(isWin).isFalse();
+	}
+	
+	@Test
+	public void testIsWinGameTrue(){
+		String playerTest = "PlayerTest";
+		Player player = playerDao.initPlayer(playerTest);
+		playerDao.addPointWinner(player);
+		playerDao.addPointWinner(player);
+		playerDao.addPointWinner(player);
+		playerDao.addPointWinner(player);
+		
+		boolean isWin = playerDao.isWinGame(player);
+		assertThat(isWin).isTrue();
+	}
+	
 }

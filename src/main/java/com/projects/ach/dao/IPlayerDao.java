@@ -20,4 +20,6 @@ public interface IPlayerDao {
 	
 	void addPointLooser(Player player);
 	
+	boolean isWinGame(Player player);
+	
 }

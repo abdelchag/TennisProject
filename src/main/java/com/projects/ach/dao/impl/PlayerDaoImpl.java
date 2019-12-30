@@ -55,4 +55,16 @@ public class PlayerDaoImpl implements IPlayerDao {
 
 	}
 
+	@Override
+	public boolean isWinGame(Player player) {
+		Game game = player.getGame();
+		List<Point> pointPlayerWon = null;
+		if (game.getPlayer1().getName().equals(player.getName())) {
+			pointPlayerWon = game.getPointsPlayer1();
+		} else {
+			pointPlayerWon = game.getPointsPlayer2();
+		}
+		return pointPlayerWon.get(pointPlayerWon.size() - 1).equals(Point.PWIN);
+	}
+
 }

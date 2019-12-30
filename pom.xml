@@ -11,7 +11,7 @@
 	<groupId>com.projects.ach</groupId>
 	<artifactId>TennisProject</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 	<name>TennisProject</name>
 	<description>Kata for Tennis project</description>
 

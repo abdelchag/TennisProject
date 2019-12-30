@@ -21,4 +21,6 @@ public interface IGameDao {
 	
 	Player getOtherPlayer(Game game, String playerName);
 
+	void putWinner(Game game, Player player);
+
 }

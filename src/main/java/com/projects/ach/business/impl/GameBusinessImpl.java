@@ -37,12 +37,12 @@ public class GameBusinessImpl implements IGameBusiness {
 	public void winPoint(Game game, Player playerWon) {
 		Player playerWonGame = gameDao.getThisPlayer(game, playerWon.getName());
 		Player playerLooseGame = gameDao.getOtherPlayer(game, playerWon.getName());
-		
 		playerDao.addPointWinner(playerWonGame);
 		playerDao.addPointLooser(playerLooseGame);
 		
-		
-		
+		if(playerDao.isWinGame(playerWonGame)){
+			gameDao.putWinner(game, playerWonGame);
+		}
 	}
 	
 	

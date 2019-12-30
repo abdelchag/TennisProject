@@ -44,4 +44,10 @@ public class GameDaoImpl implements IGameDao {
 		return null;
 	}
 
+	@Override
+	public void putWinner(Game game, Player player) {
+		game.setWinner(player);
+		
+	}
+
 }

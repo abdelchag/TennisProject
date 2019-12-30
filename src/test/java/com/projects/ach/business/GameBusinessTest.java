@@ -4,6 +4,7 @@
 package com.projects.ach.business;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -77,26 +78,44 @@ public class GameBusinessTest {
 	}
 	
 	@Test
-	public void testWinPointPlayer1(){
+	public void testWinPointPlayer1NotGame(){
 		when(gameDao.getThisPlayer(game, playerName1)).thenReturn(player1);
 		when(gameDao.getOtherPlayer(game, playerName1)).thenReturn(player2);
+		when(playerDao.isWinGame(player1)).thenReturn(false);
 		
 		gameBusiness.winPoint(game, player1);
 		
 		verify(playerDao, times(1)).addPointWinner(player1);
 		verify(playerDao, times(1)).addPointLooser(player2);
+		verify(gameDao, never()).putWinner(game, player1);
 	}
 	
 	
 	@Test
-	public void testWinPointPlayer2(){
+	public void testWinPointPlayer2NotGame(){
 		when(gameDao.getThisPlayer(game, playerName2)).thenReturn(player2);
 		when(gameDao.getOtherPlayer(game, playerName2)).thenReturn(player1);
+		when(playerDao.isWinGame(player2)).thenReturn(false);
 		
 		gameBusiness.winPoint(game, player2);
 		
 		verify(playerDao, times(1)).addPointWinner(player2);
 		verify(playerDao, times(1)).addPointLooser(player1);
+		verify(gameDao, never()).putWinner(game, player1);
 	}
 
+	@Test
+	public void testWinPointPlayer1AndGame(){
+		when(gameDao.getThisPlayer(game, playerName1)).thenReturn(player1);
+		when(gameDao.getOtherPlayer(game, playerName1)).thenReturn(player2);
+		when(playerDao.isWinGame(player1)).thenReturn(true);
+		
+		gameBusiness.winPoint(game, player1);
+		
+		verify(playerDao, times(1)).addPointWinner(player1);
+		verify(playerDao, times(1)).addPointLooser(player2);
+		verify(gameDao, times(1)).putWinner(game, player1);
+	}
+	
+	
 }
