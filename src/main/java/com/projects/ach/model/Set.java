@@ -47,6 +47,7 @@ public class Set {
 
 	public void setPlayer2(Player player2) {
 		this.player2 = player2;
+		this.player2.setSet(this);
 	}
 
 	public List<Integer> getScoresPlayer2() {
@@ -71,6 +72,11 @@ public class Set {
 
 	public void setWinner(Player winner) {
 		this.winner = winner;
+	}
+
+	public void addGame(Game game) {
+		this.games.add(game);
+		game.setSet(this);
 	}
 
 }

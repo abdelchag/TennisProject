@@ -20,13 +20,13 @@ public class PlayerDaoImpl implements IPlayerDao {
 	public Player initPlayer(String name) {
 		Player player = new Player();
 		player.setName(name);
-		player.getGame().getPointsPlayer1().add(Point.P0);
+		player.getSet().getScoresPlayer1().add(0);
 		return player;
 	}
 
 	@Override
 	public void addPointWinner(Player player) {
-		Game game = player.getGame();
+		Game game = player.getSet().getGames().get(player.getSet().getGames().size() - 1);
 
 		List<Point> pointsPlayerWon = null;
 		List<Point> pointsPlayerLoose = null;
@@ -54,7 +54,7 @@ public class PlayerDaoImpl implements IPlayerDao {
 
 	@Override
 	public void addPointLooser(Player player) {
-		Game game = player.getGame();
+		Game game = player.getSet().getGames().get(player.getSet().getGames().size() - 1);
 		List<Point> pointsPlayerLoose = null;
 		List<Point> pointsPlayerWon = null;
 		if (game.getPlayer1().getName().equals(player.getName())) {
@@ -75,7 +75,7 @@ public class PlayerDaoImpl implements IPlayerDao {
 
 	@Override
 	public boolean isWinGame(Player player) {
-		Game game = player.getGame();
+		Game game = player.getSet().getGames().get(player.getSet().getGames().size() - 1);
 		List<Point> pointPlayerWon = null;
 		if (game.getPlayer1().getName().equals(player.getName())) {
 			pointPlayerWon = game.getPointsPlayer1();

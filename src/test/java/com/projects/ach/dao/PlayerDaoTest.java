@@ -15,6 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.projects.ach.dao.impl.GameDaoImpl;
 import com.projects.ach.dao.impl.PlayerDaoImpl;
+import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
 import com.projects.ach.model.Point;
 
@@ -40,9 +41,15 @@ public class PlayerDaoTest {
 		String playerTest2 = "PlayerTest2";
 		player1 = playerDao.initPlayer(playerTest1);
 		player2 = playerDao.initPlayer(playerTest2);
-		player1.getGame().setPointsPlayer2(new LinkedList<>());
-		player1.getGame().getPointsPlayer2().add(Point.P0);
-		player2.setGame(player1.getGame());
+		player1.getSet().setScoresPlayer2(new LinkedList<>());
+		player1.getSet().getScoresPlayer2().add(0);
+		player1.getSet().setPlayer2(player2);
+
+		Game game = new Game();
+		game.getPointsPlayer1().add(Point.P0);
+		game.getPointsPlayer2().add(Point.P0);
+		player1.getSet().addGame(game);
+
 	}
 
 	@Test
@@ -50,82 +57,88 @@ public class PlayerDaoTest {
 		String playerTest = "PlayerTest";
 		Player player = playerDao.initPlayer(playerTest);
 		assertThat(player.getName()).isEqualTo(playerTest);
-		assertThat(player.getGame()).isNotNull();
-		assertThat(player.getGame().getPlayer1()).isEqualTo(player);
+		assertThat(player.getSet()).isNotNull();
+		assertThat(player.getSet().getPlayer1()).isEqualTo(player);
 	}
 
 	@Test
 	public void testAddPointWinnerFirstPoint() {
 		playerDao.addPointWinner(player1);
-		assertThat(player1.getGame().getPointsPlayer1()).isNotNull();
-		assertThat(player1.getGame().getPointsPlayer1()).hasSize(2);
-		assertThat(Point.P15).isEqualTo(player1.getGame().getPointsPlayer1().get(1));
+		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
+		assertThat(currentGame.getPointsPlayer1()).isNotNull();
+		assertThat(currentGame.getPointsPlayer1()).hasSize(2);
+		assertThat(Point.P15).isEqualTo(currentGame.getPointsPlayer1().get(1));
 	}
 
 	@Test
 	public void testAddPointWinnerTwoPoint() {
 		playerDao.addPointWinner(player1);
 		playerDao.addPointWinner(player1);
-		assertThat(player1.getGame().getPointsPlayer1()).isNotNull();
-		assertThat(player1.getGame().getPointsPlayer1()).hasSize(3);
-		assertThat(Point.P30).isEqualTo(player1.getGame().getPointsPlayer1().get(2));
+		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
+		assertThat(currentGame.getPointsPlayer1()).isNotNull();
+		assertThat(currentGame.getPointsPlayer1()).hasSize(3);
+		assertThat(Point.P30).isEqualTo(currentGame.getPointsPlayer1().get(2));
 	}
 
 	@Test
 	public void testAddPointWinnerADV() {
-		player1.getGame().getPointsPlayer1().add(Point.P40);
-		player1.getGame().getPointsPlayer2().add(Point.P40);
+		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
+		currentGame.getPointsPlayer1().add(Point.P40);
+		currentGame.getPointsPlayer2().add(Point.P40);
 		playerDao.addPointWinner(player1);
-		assertThat(player1.getGame().getPointsPlayer1()).isNotNull();
-		assertThat(Point.PADV)
-				.isEqualTo(player1.getGame().getPointsPlayer1().get(player1.getGame().getPointsPlayer1().size() - 1));
+		assertThat(currentGame.getPointsPlayer1()).isNotNull();
+		assertThat(Point.PADV).isEqualTo(currentGame.getPointsPlayer1().get(currentGame.getPointsPlayer1().size() - 1));
 	}
 
 	@Test
 	public void testAddPointWinnerADVAfterDEUCE() {
-		player1.getGame().getPointsPlayer1().add(Point.PDEUCE);
-		player1.getGame().getPointsPlayer2().add(Point.PDEUCE);
+		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
+		currentGame.getPointsPlayer1().add(Point.PDEUCE);
+		currentGame.getPointsPlayer2().add(Point.PDEUCE);
 		playerDao.addPointWinner(player1);
-		assertThat(player1.getGame().getPointsPlayer1()).isNotNull();
-		assertThat(Point.PADV)
-				.isEqualTo(player1.getGame().getPointsPlayer1().get(player1.getGame().getPointsPlayer1().size() - 1));
+		assertThat(currentGame.getPointsPlayer1()).isNotNull();
+		assertThat(Point.PADV).isEqualTo(currentGame.getPointsPlayer1().get(currentGame.getPointsPlayer1().size() - 1));
 	}
 
 	@Test
 	public void testAddPointWinnerDEUCE() {
-		player1.getGame().getPointsPlayer1().add(Point.P40);
-		player1.getGame().getPointsPlayer2().add(Point.PADV);
+		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
+		currentGame.getPointsPlayer1().add(Point.P40);
+		currentGame.getPointsPlayer2().add(Point.PADV);
 		playerDao.addPointWinner(player1);
-		assertThat(player1.getGame().getPointsPlayer1()).isNotNull();
+		assertThat(currentGame.getPointsPlayer1()).isNotNull();
 		assertThat(Point.PDEUCE)
-				.isEqualTo(player1.getGame().getPointsPlayer1().get(player1.getGame().getPointsPlayer1().size() - 1));
+				.isEqualTo(currentGame.getPointsPlayer1().get(currentGame.getPointsPlayer1().size() - 1));
 	}
 
 	@Test
 	public void testAddPointLooserFirstPoint() {
+		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
 		playerDao.addPointLooser(player1);
-		assertThat(player1.getGame().getPointsPlayer1()).isNotNull();
-		assertThat(player1.getGame().getPointsPlayer1()).hasSize(2);
-		assertThat(Point.P0).isEqualTo(player1.getGame().getPointsPlayer1().get(1));
+		assertThat(currentGame.getPointsPlayer1()).isNotNull();
+		assertThat(currentGame.getPointsPlayer1()).hasSize(2);
+		assertThat(Point.P0).isEqualTo(currentGame.getPointsPlayer1().get(1));
 	}
 
 	@Test
 	public void testAddPointLooserTwoPoint() {
+		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
 		playerDao.addPointLooser(player1);
 		playerDao.addPointLooser(player1);
-		assertThat(player1.getGame().getPointsPlayer1()).isNotNull();
-		assertThat(player1.getGame().getPointsPlayer1()).hasSize(3);
-		assertThat(Point.P0).isEqualTo(player1.getGame().getPointsPlayer1().get(2));
+		assertThat(currentGame.getPointsPlayer1()).isNotNull();
+		assertThat(currentGame.getPointsPlayer1()).hasSize(3);
+		assertThat(Point.P0).isEqualTo(currentGame.getPointsPlayer1().get(2));
 	}
 
 	@Test
 	public void testAddPointLooserDEUCE() {
-		player1.getGame().getPointsPlayer1().add(Point.PADV);
-		player1.getGame().getPointsPlayer2().add(Point.PDEUCE);
+		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
+		currentGame.getPointsPlayer1().add(Point.PADV);
+		currentGame.getPointsPlayer2().add(Point.PDEUCE);
 		playerDao.addPointLooser(player1);
-		assertThat(player1.getGame().getPointsPlayer1()).isNotNull();
-		assertThat(player1.getGame().getPointsPlayer1()).hasSize(3);
-		assertThat(Point.PDEUCE).isEqualTo(player1.getGame().getPointsPlayer1().get(2));
+		assertThat(currentGame.getPointsPlayer1()).isNotNull();
+		assertThat(currentGame.getPointsPlayer1()).hasSize(3);
+		assertThat(Point.PDEUCE).isEqualTo(currentGame.getPointsPlayer1().get(2));
 	}
 
 	@Test

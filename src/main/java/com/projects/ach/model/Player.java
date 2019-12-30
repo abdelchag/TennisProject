@@ -3,8 +3,6 @@
  */
 package com.projects.ach.model;
 
-import java.util.Collections;
-
 /**
  * @author ABDELCHAG
  *
@@ -12,13 +10,12 @@ import java.util.Collections;
 public class Player {
 
 	private String name;
-	private Game game;
+	private Set set;
 
 	public Player() {
-		game = new Game();
-		game.setSet(new Set());
-		game.getSet().setPlayer1(this);
-		game.getSet().setGames(Collections.singletonList(game));
+		set = new Set();
+		set.setPlayer1(this);
+		set.getScoresPlayer1().add(0);
 	}
 
 	public String getName() {
@@ -29,12 +26,12 @@ public class Player {
 		this.name = name;
 	}
 
-	public Game getGame() {
-		return game;
+	public Set getSet() {
+		return set;
 	}
 
-	public void setGame(Game game) {
-		this.game = game;
+	public void setSet(Set set) {
+		this.set = set;
 	}
 
 }
