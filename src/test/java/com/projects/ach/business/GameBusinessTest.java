@@ -22,6 +22,7 @@ import com.projects.ach.dao.impl.PlayerDaoImpl;
 import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
 import com.projects.ach.model.Point;
+import com.projects.ach.model.Set;
 
 /**
  * @author ABDELCHAG
@@ -38,6 +39,7 @@ public class GameBusinessTest {
 	private String playerName1;
 	private String playerName2;
 	private Game game;
+	private Set set;
 
 	@Before
 	public void init() {
@@ -49,10 +51,17 @@ public class GameBusinessTest {
 		player2.setName(playerName2);
 
 		game = new Game();
-		game.setPlayer1(player1);
-		game.setPlayer2(player2);
 		game.getPointsPlayer1().add(Point.P0);
 		game.getPointsPlayer2().add(Point.P0);
+
+		set = new Set();
+		set.setPlayer1(player1);
+		set.setPlayer2(player2);
+		set.getGames().add(game);
+		game.setSet(set);
+		set.getScoresPlayer1().add(0);
+		set.getScoresPlayer2().add(0);
+
 	}
 
 	@Mock
@@ -63,11 +72,9 @@ public class GameBusinessTest {
 
 	@Test
 	public void testStartGame() {
-		when(playerDao.initPlayer(playerName1)).thenReturn(player1);
-		when(playerDao.initPlayer(playerName2)).thenReturn(player2);
-		when(gameDao.initGame(player1, player2)).thenReturn(game);
+		when(gameDao.initGame(set)).thenReturn(game);
 
-		Game gameInit = gameBusiness.startGame(playerName1, playerName2);
+		Game gameInit = gameBusiness.startGame(set);
 
 		assertThat(gameInit).isNotNull();
 		assertThat(game.getPlayer1()).isEqualTo(player1);

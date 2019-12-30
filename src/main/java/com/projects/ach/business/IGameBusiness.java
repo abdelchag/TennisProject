@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
+import com.projects.ach.model.Set;
 
 /**
  * @author ABDELCHAG
@@ -14,9 +15,9 @@ import com.projects.ach.model.Player;
  */
 @Service
 public interface IGameBusiness {
-	
-	public Game startGame(String namePlayer1, String namePlayer2);
-	
+
+	public Game startGame(Set set);
+
 	public void winPoint(Game game, Player playerWon);
-	
+
 }

@@ -4,7 +4,7 @@
 package com.projects.ach.business.impl;
 
 import com.projects.ach.business.IMatchBusiness;
-import com.projects.ach.model.Match;
+import com.projects.ach.model.Set;
 import com.projects.ach.model.Player;
 
 /**
@@ -14,7 +14,7 @@ import com.projects.ach.model.Player;
 public class MatchBusinessImpl implements IMatchBusiness {
 
 	@Override
-	public Match startMatch(Player player1, Player player2) {
+	public Set startMatch(Player player1, Player player2) {
 		// TODO Auto-generated method stub
 		return null;
 	}

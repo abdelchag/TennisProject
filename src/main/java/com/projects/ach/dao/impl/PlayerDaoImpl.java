@@ -20,8 +20,6 @@ public class PlayerDaoImpl implements IPlayerDao {
 	public Player initPlayer(String name) {
 		Player player = new Player();
 		player.setName(name);
-		player.setGame(new Game());
-		player.getGame().setPlayer1(player);
 		player.getGame().getPointsPlayer1().add(Point.P0);
 		return player;
 	}
@@ -67,9 +65,9 @@ public class PlayerDaoImpl implements IPlayerDao {
 			pointsPlayerWon = game.getPointsPlayer1();
 		}
 
-		if(pointsPlayerWon.get(pointsPlayerWon.size() - 1) == Point.PDEUCE){
+		if (pointsPlayerWon.get(pointsPlayerWon.size() - 1) == Point.PDEUCE) {
 			pointsPlayerLoose.add(Point.PDEUCE);
-		}else{
+		} else {
 			Point lastPointLooser = pointsPlayerLoose.get(pointsPlayerLoose.size() - 1);
 			pointsPlayerLoose.add(lastPointLooser);
 		}

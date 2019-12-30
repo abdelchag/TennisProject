@@ -7,6 +7,7 @@ import com.projects.ach.dao.IGameDao;
 import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
 import com.projects.ach.model.Point;
+import com.projects.ach.model.Set;
 
 /**
  * @author ABDELCHAG
@@ -15,12 +16,12 @@ import com.projects.ach.model.Point;
 public class GameDaoImpl implements IGameDao {
 
 	@Override
-	public Game initGame(Player player1, Player player2) {
+	public Game initGame(Set set) {
 		Game game = new Game();
-		game.setPlayer1(player1);
-		game.setPlayer2(player2);
+		game.setSet(set);
 		game.getPointsPlayer1().add(Point.P0);
 		game.getPointsPlayer2().add(Point.P0);
+		set.getGames().add(game);
 		return game;
 	}
 
@@ -49,6 +50,5 @@ public class GameDaoImpl implements IGameDao {
 		game.setWinner(player);
 
 	}
-
 
 }

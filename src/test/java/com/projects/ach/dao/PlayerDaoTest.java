@@ -40,7 +40,6 @@ public class PlayerDaoTest {
 		String playerTest2 = "PlayerTest2";
 		player1 = playerDao.initPlayer(playerTest1);
 		player2 = playerDao.initPlayer(playerTest2);
-		player1.getGame().setPlayer2(player2);
 		player1.getGame().setPointsPlayer2(new LinkedList<>());
 		player1.getGame().getPointsPlayer2().add(Point.P0);
 		player2.setGame(player1.getGame());
@@ -81,7 +80,7 @@ public class PlayerDaoTest {
 		assertThat(Point.PADV)
 				.isEqualTo(player1.getGame().getPointsPlayer1().get(player1.getGame().getPointsPlayer1().size() - 1));
 	}
-	
+
 	@Test
 	public void testAddPointWinnerADVAfterDEUCE() {
 		player1.getGame().getPointsPlayer1().add(Point.PDEUCE);
@@ -91,7 +90,7 @@ public class PlayerDaoTest {
 		assertThat(Point.PADV)
 				.isEqualTo(player1.getGame().getPointsPlayer1().get(player1.getGame().getPointsPlayer1().size() - 1));
 	}
-	
+
 	@Test
 	public void testAddPointWinnerDEUCE() {
 		player1.getGame().getPointsPlayer1().add(Point.P40);
@@ -118,7 +117,7 @@ public class PlayerDaoTest {
 		assertThat(player1.getGame().getPointsPlayer1()).hasSize(3);
 		assertThat(Point.P0).isEqualTo(player1.getGame().getPointsPlayer1().get(2));
 	}
-	
+
 	@Test
 	public void testAddPointLooserDEUCE() {
 		player1.getGame().getPointsPlayer1().add(Point.PADV);
@@ -128,7 +127,6 @@ public class PlayerDaoTest {
 		assertThat(player1.getGame().getPointsPlayer1()).hasSize(3);
 		assertThat(Point.PDEUCE).isEqualTo(player1.getGame().getPointsPlayer1().get(2));
 	}
-	
 
 	@Test
 	public void testIsWinGameFalse() {
