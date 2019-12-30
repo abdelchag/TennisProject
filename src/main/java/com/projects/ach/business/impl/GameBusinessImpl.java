@@ -10,20 +10,18 @@ import com.projects.ach.dao.IGameDao;
 import com.projects.ach.dao.IPlayerDao;
 import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
-import com.projects.ach.model.Point;
 
 /**
  * @author ABDELCHAG
  *
  */
 public class GameBusinessImpl implements IGameBusiness {
-	
+
 	@Autowired
 	private IPlayerDao playerDao;
-	
+
 	@Autowired
 	private IGameDao gameDao;
-	
 
 	@Override
 	public Game startGame(String namePlayer1, String namePlayer2) {
@@ -33,22 +31,17 @@ public class GameBusinessImpl implements IGameBusiness {
 		return game;
 	}
 
-
 	@Override
 	public void winPoint(Game game, Player playerWon) {
 		Player playerWonGame = gameDao.getThisPlayer(game, playerWon.getName());
 		Player playerLooseGame = gameDao.getOtherPlayer(game, playerWon.getName());
-		
+
 		playerDao.addPointWinner(playerWonGame);
 		playerDao.addPointLooser(playerLooseGame);
-		
-		if(playerDao.isWinGame(playerWonGame)){
+
+		if (playerDao.isWinGame(playerWonGame)) {
 			gameDao.putWinner(game, playerWonGame);
 		}
 	}
-	
-	
-
-
 
 }
