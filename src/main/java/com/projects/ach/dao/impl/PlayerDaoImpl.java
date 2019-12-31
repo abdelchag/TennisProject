@@ -116,6 +116,9 @@ public class PlayerDaoImpl implements IPlayerDao {
 	@Override
 	public boolean isWinSet(Player player) {
 		Set set = player.getSet();
+		if (set.getTieBreak() != null && set.getTieBreak().getWinner() != null) {
+			return true;
+		}
 		Integer lastScoreWinner = null;
 		Integer lastScoreLooser = null;
 		if (player.getName().equalsIgnoreCase(set.getPlayer1().getName())) {

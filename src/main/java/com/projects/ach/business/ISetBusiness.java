@@ -15,8 +15,11 @@ import com.projects.ach.model.Set;
 @Service
 
 public interface ISetBusiness {
+
 	Set startSet(String playerName1, String playerName2);
 
 	void scorePoint(Set set, Player playerWon);
+
+	boolean isPassToTieBreak(Set set);
 
 }

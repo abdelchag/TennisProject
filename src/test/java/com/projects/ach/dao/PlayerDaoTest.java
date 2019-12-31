@@ -226,6 +226,15 @@ public class PlayerDaoTest {
 	}
 
 	@Test
+	public void testWinSetWithTieBreak() {
+		TieBreak tieBreak = new TieBreak();
+		tieBreak.setWinner(player1);
+		player1.getSet().setTieBreak(tieBreak);
+		boolean isWin = playerDao.isWinSet(player1);
+		assertThat(isWin).isTrue();
+	}
+
+	@Test
 	public void testWinScoreTieBreakOne() {
 		playerDao.addPointWinnerTieBreak(player1);
 		TieBreak tieBreak = player1.getSet().getTieBreak();

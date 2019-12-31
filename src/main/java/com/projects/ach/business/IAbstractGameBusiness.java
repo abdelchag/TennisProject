@@ -18,6 +18,6 @@ public interface IAbstractGameBusiness {
 
 	public AbstractGame startGame(Set set);
 
-	public void winPoint(AbstractGame game, Player playerWon);
+	public void winPoint(AbstractGame abstractGame, Player playerWon);
 
 }

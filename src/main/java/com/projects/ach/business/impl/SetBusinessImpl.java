@@ -51,4 +51,11 @@ public class SetBusinessImpl implements ISetBusiness {
 		}
 	}
 
+	@Override
+	public boolean isPassToTieBreak(Set set) {
+		Integer lastScore1 = set.getScoresPlayer1().get(set.getScoresPlayer1().size() - 1);
+		Integer lastScore2 = set.getScoresPlayer2().get(set.getScoresPlayer2().size() - 1);
+		return lastScore1 == 6 && lastScore2 == 6;
+	}
+
 }

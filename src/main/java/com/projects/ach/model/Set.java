@@ -74,6 +74,7 @@ public class Set {
 
 	public void setTieBreak(TieBreak tieBreak) {
 		this.tieBreak = tieBreak;
+		this.tieBreak.setSet(this);
 	}
 
 	public Player getWinner() {
@@ -97,8 +98,12 @@ public class Set {
 		this.scoresPlayer2.add(score);
 	}
 
-	public Game getCurrentGame() {
-		return this.getGames().get(this.getGames().size() - 1);
+	public AbstractGame getCurrentGame() {
+		AbstractGame current = this.getGames().get(this.getGames().size() - 1);
+		if (this.getTieBreak() != null) {
+			current = this.getTieBreak();
+		}
+		return current;
 	}
 
 }
