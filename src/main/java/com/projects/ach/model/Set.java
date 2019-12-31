@@ -31,6 +31,7 @@ public class Set {
 
 	public void setPlayer1(Player player1) {
 		this.player1 = player1;
+		this.player1.setSet(this);
 	}
 
 	public List<Integer> getScoresPlayer1() {
@@ -77,6 +78,18 @@ public class Set {
 	public void addGame(Game game) {
 		this.games.add(game);
 		game.setSet(this);
+	}
+
+	public void addScorePlayer1(Integer score) {
+		this.scoresPlayer1.add(score);
+	}
+
+	public void addScorePlayer2(Integer score) {
+		this.scoresPlayer2.add(score);
+	}
+
+	public Game getCurrentGame() {
+		return this.getGames().get(this.getGames().size() - 1);
 	}
 
 }

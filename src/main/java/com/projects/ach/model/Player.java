@@ -15,7 +15,6 @@ public class Player {
 	public Player() {
 		set = new Set();
 		set.setPlayer1(this);
-		set.getScoresPlayer1().add(0);
 	}
 
 	public String getName() {

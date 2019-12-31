@@ -18,6 +18,7 @@ import com.projects.ach.dao.impl.PlayerDaoImpl;
 import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
 import com.projects.ach.model.Point;
+import com.projects.ach.model.Set;
 
 /**
  * @author ABDELCHAG
@@ -157,6 +158,63 @@ public class PlayerDaoTest {
 		playerDao.addPointWinner(player1);
 		boolean isWin = playerDao.isWinGame(player1);
 		assertThat(isWin).isTrue();
+	}
+
+	@Test
+	public void testWinScoreOne() {
+		playerDao.addScoreWinner(player1);
+		Set set = player1.getSet();
+		assertThat(set.getScoresPlayer1()).hasSize(2);
+		assertThat(set.getScoresPlayer1().get(set.getScoresPlayer1().size() - 1)).isEqualTo(1);
+	}
+
+	@Test
+	public void testWinScoreTwo() {
+		playerDao.addScoreWinner(player1);
+		playerDao.addScoreWinner(player1);
+		Set set = player1.getSet();
+		assertThat(set.getScoresPlayer1()).hasSize(3);
+		assertThat(set.getScoresPlayer1().get(set.getScoresPlayer1().size() - 1)).isEqualTo(2);
+	}
+
+	@Test
+	public void testLooseScoreOne() {
+		playerDao.addScoreLooser(player1);
+		Set set = player1.getSet();
+		assertThat(set.getScoresPlayer1()).hasSize(2);
+		assertThat(set.getScoresPlayer1().get(set.getScoresPlayer1().size() - 1)).isEqualTo(0);
+	}
+
+	@Test
+	public void testLooseScoreTwo() {
+		playerDao.addScoreLooser(player1);
+		playerDao.addScoreLooser(player1);
+		Set set = player1.getSet();
+		assertThat(set.getScoresPlayer1()).hasSize(3);
+		assertThat(set.getScoresPlayer1().get(set.getScoresPlayer1().size() - 1)).isEqualTo(0);
+	}
+
+	@Test
+	public void testIsWinSetWith7() {
+		player1.getSet().addScorePlayer1(7);
+		boolean isWin = playerDao.isWinSet(player1);
+		assertThat(isWin).isTrue();
+	}
+
+	@Test
+	public void testIsWinSetWith6To2() {
+		player1.getSet().addScorePlayer1(6);
+		player2.getSet().addScorePlayer2(2);
+		boolean isWin = playerDao.isWinSet(player1);
+		assertThat(isWin).isTrue();
+	}
+
+	@Test
+	public void testIsWinSetWith3To2() {
+		player1.getSet().addScorePlayer1(3);
+		player2.getSet().addScorePlayer2(2);
+		boolean isWin = playerDao.isWinSet(player1);
+		assertThat(isWin).isFalse();
 	}
 
 }

@@ -15,11 +15,17 @@ import com.projects.ach.model.Player;
 public interface IPlayerDao {
 
 	Player initPlayer(String name);
-	
+
 	void addPointWinner(Player player);
-	
+
 	void addPointLooser(Player player);
-	
+
 	boolean isWinGame(Player player);
-	
+
+	void addScoreWinner(Player player);
+
+	void addScoreLooser(Player player);
+
+	boolean isWinSet(Player player);
+
 }

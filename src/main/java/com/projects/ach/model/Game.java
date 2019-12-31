@@ -62,4 +62,12 @@ public class Game {
 		this.set = set;
 	}
 
+	public void addPointPlayer1(Point point) {
+		this.pointsPlayer1.add(point);
+	}
+
+	public void addPointPlayer2(Point point) {
+		this.pointsPlayer2.add(point);
+	}
+
 }
