@@ -19,10 +19,9 @@ public class GameDaoImpl extends AbstractGameDaoImpl {
 	@Override
 	public Game initAbstractGame(Set set) {
 		Game game = new Game();
-		game.setSet(set);
+		set.addGame(game);
 		game.addPointPlayer1(Point.P0);
 		game.addPointPlayer2(Point.P0);
-		set.addGame(game);
 		return game;
 	}
 

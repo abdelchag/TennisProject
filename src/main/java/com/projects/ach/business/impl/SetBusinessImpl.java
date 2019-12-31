@@ -4,12 +4,12 @@
 package com.projects.ach.business.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.projects.ach.business.ISetBusiness;
 import com.projects.ach.dao.IAbstractGameDao;
 import com.projects.ach.dao.IPlayerDao;
 import com.projects.ach.dao.ISetDao;
-import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
 import com.projects.ach.model.Set;
 
@@ -17,6 +17,7 @@ import com.projects.ach.model.Set;
  * @author ABDELCHAG
  *
  */
+@Component(value = "setBusiness")
 public class SetBusinessImpl implements ISetBusiness {
 
 	@Autowired
@@ -33,8 +34,7 @@ public class SetBusinessImpl implements ISetBusiness {
 		Player player1 = playerDao.initPlayer(playerName1);
 		Player player2 = playerDao.initPlayer(playerName2);
 		Set set = setDao.initSet(player1, player2);
-		Game firstGame = (Game) gameDao.initAbstractGame(set);
-		set.addGame(firstGame);
+		gameDao.initAbstractGame(set);
 		return set;
 	}
 

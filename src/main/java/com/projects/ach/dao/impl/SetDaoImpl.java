@@ -3,6 +3,8 @@
  */
 package com.projects.ach.dao.impl;
 
+import org.springframework.stereotype.Component;
+
 import com.projects.ach.dao.ISetDao;
 import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
@@ -12,6 +14,7 @@ import com.projects.ach.model.Set;
  * @author ABDELCHAG
  *
  */
+@Component(value = "setDao")
 public class SetDaoImpl implements ISetDao {
 
 	@Override

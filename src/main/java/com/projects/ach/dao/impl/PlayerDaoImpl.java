@@ -5,6 +5,8 @@ package com.projects.ach.dao.impl;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.projects.ach.dao.IPlayerDao;
 import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
@@ -16,6 +18,7 @@ import com.projects.ach.model.TieBreak;
  * @author ABDELCHAG
  *
  */
+@Component(value = "playerDao")
 public class PlayerDaoImpl implements IPlayerDao {
 
 	@Override

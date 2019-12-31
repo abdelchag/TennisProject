@@ -5,6 +5,7 @@ package com.projects.ach.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import com.projects.ach.business.IAbstractGameBusiness;
 import com.projects.ach.business.ISetBusiness;
@@ -17,6 +18,7 @@ import com.projects.ach.service.IMatchService;
  * @author ABDELCHAG
  *
  */
+@Component(value = "matchService")
 public class MatchServiceImpl implements IMatchService {
 
 	@Autowired
