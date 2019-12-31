@@ -5,7 +5,7 @@ package com.projects.ach.business;
 
 import org.springframework.stereotype.Service;
 
-import com.projects.ach.model.Game;
+import com.projects.ach.model.AbstractGame;
 import com.projects.ach.model.Player;
 import com.projects.ach.model.Set;
 
@@ -14,10 +14,10 @@ import com.projects.ach.model.Set;
  *
  */
 @Service
-public interface IGameBusiness {
+public interface IAbstractGameBusiness {
 
-	public Game startGame(Set set);
+	public AbstractGame startGame(Set set);
 
-	public void winPoint(Game game, Player playerWon);
+	public void winPoint(AbstractGame game, Player playerWon);
 
 }

@@ -34,6 +34,12 @@ public class GameBusinessTest {
 	@Mock
 	private GameDaoImpl gameDao;
 
+	@Mock
+	private PlayerDaoImpl playerDao;
+
+	@InjectMocks
+	private GameBusinessImpl gameBusiness;
+
 	private Player player1;
 	private Player player2;
 	private String playerName1;
@@ -64,12 +70,6 @@ public class GameBusinessTest {
 
 	}
 
-	@Mock
-	private PlayerDaoImpl playerDao;
-
-	@InjectMocks
-	private GameBusinessImpl gameBusiness;
-
 	@Test
 	public void testStartGame() {
 		when(gameDao.initAbstractGame(set)).thenReturn(game);
@@ -91,8 +91,8 @@ public class GameBusinessTest {
 
 		gameBusiness.winPoint(game, player1);
 
-		verify(playerDao, times(1)).addPointWinner(player1);
-		verify(playerDao, times(1)).addPointLooser(player2);
+		verify(playerDao, times(1)).addPointWinnerGame(player1);
+		verify(playerDao, times(1)).addPointLooserGame(player2);
 		verify(gameDao, never()).putWinner(game, player1);
 	}
 
@@ -104,8 +104,8 @@ public class GameBusinessTest {
 
 		gameBusiness.winPoint(game, player2);
 
-		verify(playerDao, times(1)).addPointWinner(player2);
-		verify(playerDao, times(1)).addPointLooser(player1);
+		verify(playerDao, times(1)).addPointWinnerGame(player2);
+		verify(playerDao, times(1)).addPointLooserGame(player1);
 		verify(gameDao, never()).putWinner(game, player1);
 	}
 
@@ -117,8 +117,8 @@ public class GameBusinessTest {
 
 		gameBusiness.winPoint(game, player1);
 
-		verify(playerDao, times(1)).addPointWinner(player1);
-		verify(playerDao, times(1)).addPointLooser(player2);
+		verify(playerDao, times(1)).addPointWinnerGame(player1);
+		verify(playerDao, times(1)).addPointLooserGame(player2);
 		verify(gameDao, times(1)).putWinner(game, player1);
 	}
 

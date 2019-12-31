@@ -16,16 +16,22 @@ public interface IPlayerDao {
 
 	Player initPlayer(String name);
 
-	void addPointWinner(Player player);
+	void addPointWinnerGame(Player player);
 
-	void addPointLooser(Player player);
+	void addPointLooserGame(Player player);
 
 	boolean isWinGame(Player player);
 
-	void addScoreWinner(Player player);
+	void addScoreWinnerSet(Player player);
 
-	void addScoreLooser(Player player);
+	void addScoreLooserSet(Player player);
 
 	boolean isWinSet(Player player);
+
+	void addPointWinnerTieBreak(Player player);
+
+	void addPointLooserTieBreak(Player player);
+
+	boolean isWinTieBreak(Player player);
 
 }

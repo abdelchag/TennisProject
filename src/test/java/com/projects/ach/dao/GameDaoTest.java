@@ -5,7 +5,6 @@ package com.projects.ach.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,41 +14,16 @@ import com.projects.ach.dao.impl.GameDaoImpl;
 import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
 import com.projects.ach.model.Point;
-import com.projects.ach.model.Set;
 
 /**
  * @author ABDELCHAG
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class GameDaoTest {
+public class GameDaoTest extends AbstractGameDaoInitTest {
 
 	@InjectMocks
 	private GameDaoImpl gameDao;
-
-	private Player player1;
-	private Player player2;
-	private String playerName1;
-	private String playerName2;
-
-	private Set set;
-
-	@Before
-	public void init() {
-		playerName1 = "PlayerTest1";
-		playerName2 = "PlayerTest2";
-		player1 = new Player();
-		player2 = new Player();
-		player1.setName(playerName1);
-		player2.setName(playerName2);
-
-		set = new Set();
-		set.setPlayer1(player1);
-		set.setPlayer2(player2);
-		set.getScoresPlayer1().add(0);
-		set.getScoresPlayer2().add(0);
-
-	}
 
 	@Test
 	public void testInitGame() {

@@ -4,10 +4,13 @@
 package com.projects.ach.business.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
-import com.projects.ach.business.IGameBusiness;
+import com.projects.ach.business.IAbstractGameBusiness;
 import com.projects.ach.dao.IAbstractGameDao;
 import com.projects.ach.dao.IPlayerDao;
+import com.projects.ach.model.AbstractGame;
 import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
 import com.projects.ach.model.Set;
@@ -16,12 +19,14 @@ import com.projects.ach.model.Set;
  * @author ABDELCHAG
  *
  */
-public class GameBusinessImpl implements IGameBusiness {
+@Component(value = "gameBusiness")
+public class GameBusinessImpl implements IAbstractGameBusiness {
 
 	@Autowired
 	private IPlayerDao playerDao;
 
 	@Autowired
+	@Qualifier(value = "gameDao")
 	private IAbstractGameDao gameDao;
 
 	@Override
@@ -31,15 +36,15 @@ public class GameBusinessImpl implements IGameBusiness {
 	}
 
 	@Override
-	public void winPoint(Game game, Player playerWon) {
-		Player playerWonGame = gameDao.getThisPlayer(game, playerWon.getName());
-		Player playerLooseGame = gameDao.getOtherPlayer(game, playerWon.getName());
+	public void winPoint(AbstractGame abstractGame, Player playerWon) {
+		Player playerWonGame = gameDao.getThisPlayer(abstractGame, playerWon.getName());
+		Player playerLooseGame = gameDao.getOtherPlayer(abstractGame, playerWon.getName());
 
-		playerDao.addPointWinner(playerWonGame);
-		playerDao.addPointLooser(playerLooseGame);
+		playerDao.addPointWinnerGame(playerWonGame);
+		playerDao.addPointLooserGame(playerLooseGame);
 
 		if (playerDao.isWinGame(playerWonGame)) {
-			gameDao.putWinner(game, playerWonGame);
+			gameDao.putWinner(abstractGame, playerWonGame);
 		}
 	}
 

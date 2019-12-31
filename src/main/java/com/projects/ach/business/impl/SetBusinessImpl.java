@@ -43,8 +43,8 @@ public class SetBusinessImpl implements ISetBusiness {
 		Player playerWonSet = setDao.getThisPlayer(set, playerWon.getName());
 		Player playerLooseSet = setDao.getOtherPlayer(set, playerWon.getName());
 
-		playerDao.addScoreWinner(playerWonSet);
-		playerDao.addScoreLooser(playerLooseSet);
+		playerDao.addScoreWinnerSet(playerWonSet);
+		playerDao.addScoreLooserSet(playerLooseSet);
 
 		if (playerDao.isWinSet(playerWonSet)) {
 			setDao.putWinner(set, playerWonSet);

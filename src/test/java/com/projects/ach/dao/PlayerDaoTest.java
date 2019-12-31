@@ -19,6 +19,7 @@ import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
 import com.projects.ach.model.Point;
 import com.projects.ach.model.Set;
+import com.projects.ach.model.TieBreak;
 
 /**
  * @author ABDELCHAG
@@ -51,6 +52,12 @@ public class PlayerDaoTest {
 		game.getPointsPlayer2().add(Point.P0);
 		player1.getSet().addGame(game);
 
+		TieBreak tieBreak = new TieBreak();
+		tieBreak.addPointPlayer1(0);
+		tieBreak.addPointPlayer2(0);
+		tieBreak.setSet(player1.getSet());
+		player1.getSet().setTieBreak(tieBreak);
+
 	}
 
 	@Test
@@ -63,8 +70,8 @@ public class PlayerDaoTest {
 	}
 
 	@Test
-	public void testAddPointWinnerFirstPoint() {
-		playerDao.addPointWinner(player1);
+	public void testAddPointWinnerGameFirstPoint() {
+		playerDao.addPointWinnerGame(player1);
 		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
 		assertThat(currentGame.getPointsPlayer1()).isNotNull();
 		assertThat(currentGame.getPointsPlayer1()).hasSize(2);
@@ -72,9 +79,9 @@ public class PlayerDaoTest {
 	}
 
 	@Test
-	public void testAddPointWinnerTwoPoint() {
-		playerDao.addPointWinner(player1);
-		playerDao.addPointWinner(player1);
+	public void testAddPointWinnerGameTwoPoint() {
+		playerDao.addPointWinnerGame(player1);
+		playerDao.addPointWinnerGame(player1);
 		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
 		assertThat(currentGame.getPointsPlayer1()).isNotNull();
 		assertThat(currentGame.getPointsPlayer1()).hasSize(3);
@@ -82,61 +89,61 @@ public class PlayerDaoTest {
 	}
 
 	@Test
-	public void testAddPointWinnerADV() {
+	public void testAddPointWinnerGameADV() {
 		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
 		currentGame.getPointsPlayer1().add(Point.P40);
 		currentGame.getPointsPlayer2().add(Point.P40);
-		playerDao.addPointWinner(player1);
+		playerDao.addPointWinnerGame(player1);
 		assertThat(currentGame.getPointsPlayer1()).isNotNull();
 		assertThat(Point.PADV).isEqualTo(currentGame.getPointsPlayer1().get(currentGame.getPointsPlayer1().size() - 1));
 	}
 
 	@Test
-	public void testAddPointWinnerADVAfterDEUCE() {
+	public void testAddPointWinnerGameADVAfterDEUCE() {
 		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
 		currentGame.getPointsPlayer1().add(Point.PDEUCE);
 		currentGame.getPointsPlayer2().add(Point.PDEUCE);
-		playerDao.addPointWinner(player1);
+		playerDao.addPointWinnerGame(player1);
 		assertThat(currentGame.getPointsPlayer1()).isNotNull();
 		assertThat(Point.PADV).isEqualTo(currentGame.getPointsPlayer1().get(currentGame.getPointsPlayer1().size() - 1));
 	}
 
 	@Test
-	public void testAddPointWinnerDEUCE() {
+	public void testAddPointWinnerGameDEUCE() {
 		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
 		currentGame.getPointsPlayer1().add(Point.P40);
 		currentGame.getPointsPlayer2().add(Point.PADV);
-		playerDao.addPointWinner(player1);
+		playerDao.addPointWinnerGame(player1);
 		assertThat(currentGame.getPointsPlayer1()).isNotNull();
 		assertThat(Point.PDEUCE)
 				.isEqualTo(currentGame.getPointsPlayer1().get(currentGame.getPointsPlayer1().size() - 1));
 	}
 
 	@Test
-	public void testAddPointLooserFirstPoint() {
+	public void testAddPointLooserGameFirstPoint() {
 		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
-		playerDao.addPointLooser(player1);
+		playerDao.addPointLooserGame(player1);
 		assertThat(currentGame.getPointsPlayer1()).isNotNull();
 		assertThat(currentGame.getPointsPlayer1()).hasSize(2);
 		assertThat(Point.P0).isEqualTo(currentGame.getPointsPlayer1().get(1));
 	}
 
 	@Test
-	public void testAddPointLooserTwoPoint() {
+	public void testAddPointLooserGameTwoPoint() {
 		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
-		playerDao.addPointLooser(player1);
-		playerDao.addPointLooser(player1);
+		playerDao.addPointLooserGame(player1);
+		playerDao.addPointLooserGame(player1);
 		assertThat(currentGame.getPointsPlayer1()).isNotNull();
 		assertThat(currentGame.getPointsPlayer1()).hasSize(3);
 		assertThat(Point.P0).isEqualTo(currentGame.getPointsPlayer1().get(2));
 	}
 
 	@Test
-	public void testAddPointLooserDEUCE() {
+	public void testAddPointLooserGameDEUCE() {
 		Game currentGame = player1.getSet().getGames().get(player1.getSet().getGames().size() - 1);
 		currentGame.getPointsPlayer1().add(Point.PADV);
 		currentGame.getPointsPlayer2().add(Point.PDEUCE);
-		playerDao.addPointLooser(player1);
+		playerDao.addPointLooserGame(player1);
 		assertThat(currentGame.getPointsPlayer1()).isNotNull();
 		assertThat(currentGame.getPointsPlayer1()).hasSize(3);
 		assertThat(Point.PDEUCE).isEqualTo(currentGame.getPointsPlayer1().get(2));
@@ -144,51 +151,51 @@ public class PlayerDaoTest {
 
 	@Test
 	public void testIsWinGameFalse() {
-		playerDao.addPointWinner(player1);
-		playerDao.addPointWinner(player1);
+		playerDao.addPointWinnerGame(player1);
+		playerDao.addPointWinnerGame(player1);
 		boolean isWin = playerDao.isWinGame(player1);
 		assertThat(isWin).isFalse();
 	}
 
 	@Test
 	public void testIsWinGameTrue() {
-		playerDao.addPointWinner(player1);
-		playerDao.addPointWinner(player1);
-		playerDao.addPointWinner(player1);
-		playerDao.addPointWinner(player1);
+		playerDao.addPointWinnerGame(player1);
+		playerDao.addPointWinnerGame(player1);
+		playerDao.addPointWinnerGame(player1);
+		playerDao.addPointWinnerGame(player1);
 		boolean isWin = playerDao.isWinGame(player1);
 		assertThat(isWin).isTrue();
 	}
 
 	@Test
-	public void testWinScoreOne() {
-		playerDao.addScoreWinner(player1);
+	public void testWinScoreSetOne() {
+		playerDao.addScoreWinnerSet(player1);
 		Set set = player1.getSet();
 		assertThat(set.getScoresPlayer1()).hasSize(2);
 		assertThat(set.getScoresPlayer1().get(set.getScoresPlayer1().size() - 1)).isEqualTo(1);
 	}
 
 	@Test
-	public void testWinScoreTwo() {
-		playerDao.addScoreWinner(player1);
-		playerDao.addScoreWinner(player1);
+	public void testWinScoreSetTwo() {
+		playerDao.addScoreWinnerSet(player1);
+		playerDao.addScoreWinnerSet(player1);
 		Set set = player1.getSet();
 		assertThat(set.getScoresPlayer1()).hasSize(3);
 		assertThat(set.getScoresPlayer1().get(set.getScoresPlayer1().size() - 1)).isEqualTo(2);
 	}
 
 	@Test
-	public void testLooseScoreOne() {
-		playerDao.addScoreLooser(player1);
+	public void testLooseScoreSetOne() {
+		playerDao.addScoreLooserSet(player1);
 		Set set = player1.getSet();
 		assertThat(set.getScoresPlayer1()).hasSize(2);
 		assertThat(set.getScoresPlayer1().get(set.getScoresPlayer1().size() - 1)).isEqualTo(0);
 	}
 
 	@Test
-	public void testLooseScoreTwo() {
-		playerDao.addScoreLooser(player1);
-		playerDao.addScoreLooser(player1);
+	public void testLooseScoreSetTwo() {
+		playerDao.addScoreLooserSet(player1);
+		playerDao.addScoreLooserSet(player1);
 		Set set = player1.getSet();
 		assertThat(set.getScoresPlayer1()).hasSize(3);
 		assertThat(set.getScoresPlayer1().get(set.getScoresPlayer1().size() - 1)).isEqualTo(0);
@@ -215,6 +222,72 @@ public class PlayerDaoTest {
 		player1.getSet().addScorePlayer1(3);
 		player2.getSet().addScorePlayer2(2);
 		boolean isWin = playerDao.isWinSet(player1);
+		assertThat(isWin).isFalse();
+	}
+
+	@Test
+	public void testWinScoreTieBreakOne() {
+		playerDao.addPointWinnerTieBreak(player1);
+		TieBreak tieBreak = player1.getSet().getTieBreak();
+		assertThat(tieBreak.getScoresPlayer1()).hasSize(2);
+		assertThat(tieBreak.getScoresPlayer1().get(tieBreak.getScoresPlayer1().size() - 1)).isEqualTo(1);
+	}
+
+	@Test
+	public void testWinScoreTieBreakTwo() {
+		playerDao.addPointWinnerTieBreak(player1);
+		playerDao.addPointWinnerTieBreak(player1);
+		TieBreak tieBreak = player1.getSet().getTieBreak();
+		assertThat(tieBreak.getScoresPlayer1()).hasSize(3);
+		assertThat(tieBreak.getScoresPlayer1().get(tieBreak.getScoresPlayer1().size() - 1)).isEqualTo(2);
+	}
+
+	@Test
+	public void testLooseScoreTieBreakOne() {
+		playerDao.addPointLooserTieBreak(player1);
+		TieBreak tieBreak = player1.getSet().getTieBreak();
+		assertThat(tieBreak.getScoresPlayer1()).hasSize(2);
+		assertThat(tieBreak.getScoresPlayer1().get(tieBreak.getScoresPlayer1().size() - 1)).isEqualTo(0);
+	}
+
+	@Test
+	public void testLooseScoreTieBreakTwo() {
+		playerDao.addPointLooserTieBreak(player1);
+		playerDao.addPointLooserTieBreak(player1);
+		TieBreak tieBreak = player1.getSet().getTieBreak();
+		assertThat(tieBreak.getScoresPlayer1()).hasSize(3);
+		assertThat(tieBreak.getScoresPlayer1().get(tieBreak.getScoresPlayer1().size() - 1)).isEqualTo(0);
+	}
+
+	@Test
+	public void testIsWinTieBreakWith3To2() {
+		player1.getSet().getTieBreak().addPointPlayer1(3);
+		player2.getSet().getTieBreak().addPointPlayer2(2);
+		boolean isWin = playerDao.isWinTieBreak(player1);
+		assertThat(isWin).isFalse();
+	}
+
+	@Test
+	public void testIsWinTieBreakWith7To5() {
+		player1.getSet().getTieBreak().addPointPlayer1(7);
+		player2.getSet().getTieBreak().addPointPlayer2(5);
+		boolean isWin = playerDao.isWinTieBreak(player1);
+		assertThat(isWin).isTrue();
+	}
+
+	@Test
+	public void testIsWinTieBreakWith7To6() {
+		player1.getSet().getTieBreak().addPointPlayer1(7);
+		player2.getSet().getTieBreak().addPointPlayer2(6);
+		boolean isWin = playerDao.isWinTieBreak(player1);
+		assertThat(isWin).isFalse();
+	}
+
+	@Test
+	public void testIsWinTieBreakWith8To6() {
+		player1.getSet().getTieBreak().addPointPlayer1(7);
+		player2.getSet().getTieBreak().addPointPlayer2(6);
+		boolean isWin = playerDao.isWinTieBreak(player1);
 		assertThat(isWin).isFalse();
 	}
 

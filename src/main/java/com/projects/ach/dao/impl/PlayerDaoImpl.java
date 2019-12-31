@@ -10,6 +10,7 @@ import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
 import com.projects.ach.model.Point;
 import com.projects.ach.model.Set;
+import com.projects.ach.model.TieBreak;
 
 /**
  * @author ABDELCHAG
@@ -26,7 +27,7 @@ public class PlayerDaoImpl implements IPlayerDao {
 	}
 
 	@Override
-	public void addPointWinner(Player player) {
+	public void addPointWinnerGame(Player player) {
 		Game game = player.getSet().getGames().get(player.getSet().getGames().size() - 1);
 
 		List<Point> pointsPlayerWon = null;
@@ -54,7 +55,7 @@ public class PlayerDaoImpl implements IPlayerDao {
 	}
 
 	@Override
-	public void addPointLooser(Player player) {
+	public void addPointLooserGame(Player player) {
 		Game game = player.getSet().getGames().get(player.getSet().getGames().size() - 1);
 		List<Point> pointsPlayerLoose = null;
 		List<Point> pointsPlayerWon = null;
@@ -87,7 +88,7 @@ public class PlayerDaoImpl implements IPlayerDao {
 	}
 
 	@Override
-	public void addScoreWinner(Player player) {
+	public void addScoreWinnerSet(Player player) {
 		Set set = player.getSet();
 		List<Integer> scoresWinner = null;
 		if (player.getName().equalsIgnoreCase(set.getPlayer1().getName())) {
@@ -100,7 +101,7 @@ public class PlayerDaoImpl implements IPlayerDao {
 	}
 
 	@Override
-	public void addScoreLooser(Player player) {
+	public void addScoreLooserSet(Player player) {
 		Set set = player.getSet();
 		List<Integer> scoresLooser = null;
 		if (player.getName().equalsIgnoreCase(set.getPlayer1().getName())) {
@@ -125,5 +126,49 @@ public class PlayerDaoImpl implements IPlayerDao {
 			lastScoreWinner = set.getScoresPlayer2().get(set.getScoresPlayer2().size() - 1);
 		}
 		return lastScoreWinner == 7 || (lastScoreWinner == 6 && lastScoreLooser <= 4);
+	}
+
+	@Override
+	public void addPointWinnerTieBreak(Player player) {
+		TieBreak tieBreak = player.getSet().getTieBreak();
+
+		List<Integer> scoresWinner = null;
+		if (player.getName().equalsIgnoreCase(tieBreak.getPlayer1().getName())) {
+			scoresWinner = tieBreak.getScoresPlayer1();
+		} else {
+			scoresWinner = tieBreak.getScoresPlayer2();
+		}
+		Integer lastScore = scoresWinner.get(scoresWinner.size() - 1);
+		scoresWinner.add(lastScore + 1);
+
+	}
+
+	@Override
+	public void addPointLooserTieBreak(Player player) {
+		TieBreak tieBreak = player.getSet().getTieBreak();
+		List<Integer> scoresWinner = null;
+		if (player.getName().equalsIgnoreCase(tieBreak.getPlayer1().getName())) {
+			scoresWinner = tieBreak.getScoresPlayer1();
+		} else {
+			scoresWinner = tieBreak.getScoresPlayer2();
+		}
+		Integer lastScore = scoresWinner.get(scoresWinner.size() - 1);
+		scoresWinner.add(lastScore);
+
+	}
+
+	@Override
+	public boolean isWinTieBreak(Player player) {
+		TieBreak tieBreak = player.getSet().getTieBreak();
+		Integer lastScoreWinner = null;
+		Integer lastScoreLooser = null;
+		if (player.getName().equalsIgnoreCase(tieBreak.getPlayer1().getName())) {
+			lastScoreWinner = tieBreak.getScoresPlayer1().get(tieBreak.getScoresPlayer1().size() - 1);
+			lastScoreLooser = tieBreak.getScoresPlayer2().get(tieBreak.getScoresPlayer2().size() - 1);
+		} else {
+			lastScoreLooser = tieBreak.getScoresPlayer1().get(tieBreak.getScoresPlayer1().size() - 1);
+			lastScoreWinner = tieBreak.getScoresPlayer2().get(tieBreak.getScoresPlayer2().size() - 1);
+		}
+		return lastScoreWinner >= 7 && lastScoreWinner >= lastScoreLooser + 2;
 	}
 }

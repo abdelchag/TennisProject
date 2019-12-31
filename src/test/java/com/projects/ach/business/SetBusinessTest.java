@@ -93,8 +93,8 @@ public class SetBusinessTest {
 
 		setBusiness.scorePoint(set, player1);
 
-		verify(playerDao, times(1)).addScoreWinner(player1);
-		verify(playerDao, times(1)).addScoreLooser(player2);
+		verify(playerDao, times(1)).addScoreWinnerSet(player1);
+		verify(playerDao, times(1)).addScoreLooserSet(player2);
 		verify(setDao, never()).putWinner(set, player1);
 	}
 
@@ -106,8 +106,8 @@ public class SetBusinessTest {
 
 		setBusiness.scorePoint(set, player2);
 
-		verify(playerDao, times(1)).addScoreWinner(player2);
-		verify(playerDao, times(1)).addScoreLooser(player1);
+		verify(playerDao, times(1)).addScoreWinnerSet(player2);
+		verify(playerDao, times(1)).addScoreLooserSet(player1);
 		verify(setDao, never()).putWinner(set, player2);
 	}
 
@@ -119,8 +119,8 @@ public class SetBusinessTest {
 
 		setBusiness.scorePoint(set, player1);
 
-		verify(playerDao, times(1)).addScoreWinner(player1);
-		verify(playerDao, times(1)).addScoreLooser(player2);
+		verify(playerDao, times(1)).addScoreWinnerSet(player1);
+		verify(playerDao, times(1)).addScoreLooserSet(player2);
 		verify(setDao, times(1)).putWinner(set, player1);
 	}
 
