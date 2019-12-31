@@ -54,7 +54,7 @@ public class GameDaoTest {
 	@Test
 	public void testInitGame() {
 
-		Game game = gameDao.initGame(set);
+		Game game = gameDao.initAbstractGame(set);
 
 		assertThat(game.getPlayer1().getName()).isEqualTo(playerName1);
 		assertThat(game.getPlayer2().getName()).isEqualTo(playerName2);
@@ -67,7 +67,7 @@ public class GameDaoTest {
 
 	@Test
 	public void testGetThisPlayerExist() {
-		Game game = gameDao.initGame(set);
+		Game game = gameDao.initAbstractGame(set);
 		Player player = gameDao.getThisPlayer(game, playerName1);
 		assertThat(player).isNotNull();
 		assertThat(player).isEqualTo(player1);
@@ -75,14 +75,14 @@ public class GameDaoTest {
 
 	@Test
 	public void testGetThisPlayerNotExist() {
-		Game game = gameDao.initGame(set);
+		Game game = gameDao.initAbstractGame(set);
 		Player player = gameDao.getThisPlayer(game, "PlayerTest3");
 		assertThat(player).isNull();
 	}
 
 	@Test
 	public void testGetOtherPlayerExist() {
-		Game game = gameDao.initGame(set);
+		Game game = gameDao.initAbstractGame(set);
 		Player player = gameDao.getOtherPlayer(game, playerName1);
 		assertThat(player).isNotNull();
 		assertThat(player).isEqualTo(player2);
@@ -90,14 +90,14 @@ public class GameDaoTest {
 
 	@Test
 	public void testGetOtherPlayerNotExist() {
-		Game game = gameDao.initGame(set);
+		Game game = gameDao.initAbstractGame(set);
 		Player player = gameDao.getThisPlayer(game, "PlayerTest3");
 		assertThat(player).isNull();
 	}
 
 	@Test
 	public void testPutWinner() {
-		Game game = gameDao.initGame(set);
+		Game game = gameDao.initAbstractGame(set);
 		gameDao.putWinner(game, player1);
 
 		assertThat(game.getWinner()).isEqualTo(player1);

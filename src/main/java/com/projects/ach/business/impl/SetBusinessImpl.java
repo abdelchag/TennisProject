@@ -6,7 +6,7 @@ package com.projects.ach.business.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.projects.ach.business.ISetBusiness;
-import com.projects.ach.dao.IGameDao;
+import com.projects.ach.dao.IAbstractGameDao;
 import com.projects.ach.dao.IPlayerDao;
 import com.projects.ach.dao.ISetDao;
 import com.projects.ach.model.Game;
@@ -23,7 +23,7 @@ public class SetBusinessImpl implements ISetBusiness {
 	private IPlayerDao playerDao;
 
 	@Autowired
-	private IGameDao gameDao;
+	private IAbstractGameDao gameDao;
 
 	@Autowired
 	private ISetDao setDao;
@@ -33,7 +33,7 @@ public class SetBusinessImpl implements ISetBusiness {
 		Player player1 = playerDao.initPlayer(playerName1);
 		Player player2 = playerDao.initPlayer(playerName2);
 		Set set = setDao.initSet(player1, player2);
-		Game firstGame = gameDao.initGame(set);
+		Game firstGame = (Game) gameDao.initAbstractGame(set);
 		set.addGame(firstGame);
 		return set;
 	}

@@ -17,6 +17,7 @@ public class Set {
 	private Player player2;
 	private List<Integer> scoresPlayer2;
 	private List<Game> games;
+	private TieBreak tieBreak;
 	private Player winner;
 
 	public Set() {
@@ -65,6 +66,14 @@ public class Set {
 
 	public void setGames(List<Game> games) {
 		this.games = games;
+	}
+
+	public TieBreak getTieBreak() {
+		return tieBreak;
+	}
+
+	public void setTieBreak(TieBreak tieBreak) {
+		this.tieBreak = tieBreak;
 	}
 
 	public Player getWinner() {

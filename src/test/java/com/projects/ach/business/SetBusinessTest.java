@@ -75,7 +75,7 @@ public class SetBusinessTest {
 		when(playerDao.initPlayer(playerName1)).thenReturn(player1);
 		when(playerDao.initPlayer(playerName2)).thenReturn(player2);
 		when(setDao.initSet(player1, player2)).thenReturn(set);
-		when(gameDao.initGame(set)).thenReturn(game);
+		when(gameDao.initAbstractGame(set)).thenReturn(game);
 
 		Set setStarted = setBusiness.startSet(playerName1, playerName2);
 

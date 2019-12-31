@@ -72,7 +72,7 @@ public class GameBusinessTest {
 
 	@Test
 	public void testStartGame() {
-		when(gameDao.initGame(set)).thenReturn(game);
+		when(gameDao.initAbstractGame(set)).thenReturn(game);
 
 		Game gameInit = gameBusiness.startGame(set);
 

@@ -6,7 +6,7 @@ package com.projects.ach.business.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.projects.ach.business.IGameBusiness;
-import com.projects.ach.dao.IGameDao;
+import com.projects.ach.dao.IAbstractGameDao;
 import com.projects.ach.dao.IPlayerDao;
 import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
@@ -22,11 +22,11 @@ public class GameBusinessImpl implements IGameBusiness {
 	private IPlayerDao playerDao;
 
 	@Autowired
-	private IGameDao gameDao;
+	private IAbstractGameDao gameDao;
 
 	@Override
 	public Game startGame(Set set) {
-		Game game = gameDao.initGame(set);
+		Game game = (Game) gameDao.initAbstractGame(set);
 		return game;
 	}
 
