@@ -195,8 +195,9 @@ public class PlayerDaoTest {
 	}
 
 	@Test
-	public void testIsWinSetWith7() {
+	public void testIsWinSetWith7To6() {
 		player1.getSet().addScorePlayer1(7);
+		player2.getSet().addScorePlayer2(6);
 		boolean isWin = playerDao.isWinSet(player1);
 		assertThat(isWin).isTrue();
 	}
