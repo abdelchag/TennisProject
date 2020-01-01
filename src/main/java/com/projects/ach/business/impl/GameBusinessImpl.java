@@ -31,14 +31,14 @@ public class GameBusinessImpl implements IAbstractGameBusiness {
 
 	@Override
 	public Game startGame(Set set) {
-		Game game = (Game) gameDao.initAbstractGame(set);
+		Game game = (Game) gameDao.createAbstractGame(set);
 		return game;
 	}
 
 	@Override
 	public void winPoint(AbstractGame abstractGame, Player playerWon) {
-		Player playerWonGame = gameDao.getThisPlayer(abstractGame, playerWon.getName());
-		Player playerLooseGame = gameDao.getOtherPlayer(abstractGame, playerWon.getName());
+		Player playerWonGame = gameDao.getPlayer(abstractGame, playerWon.getName());
+		Player playerLooseGame = gameDao.getOpponentPlayer(abstractGame, playerWon.getName());
 
 		playerDao.addPointWinnerGame(playerWonGame);
 		playerDao.addPointLooserGame(playerLooseGame);

@@ -5,6 +5,7 @@ package com.projects.ach.business;
 
 import org.springframework.stereotype.Service;
 
+import com.projects.ach.model.AbstractGame;
 import com.projects.ach.model.Player;
 import com.projects.ach.model.Set;
 
@@ -21,5 +22,9 @@ public interface ISetBusiness {
 	void scorePoint(Set set, Player playerWon);
 
 	boolean isPassToTieBreak(Set set);
+
+	boolean hasTieBreak(Set set);
+
+	AbstractGame getCurrentAbstractGame(Set set);
 
 }

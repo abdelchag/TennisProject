@@ -5,15 +5,12 @@ package com.projects.ach.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.LinkedList;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.projects.ach.dao.impl.GameDaoImpl;
 import com.projects.ach.dao.impl.PlayerDaoImpl;
 import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
@@ -31,9 +28,6 @@ public class PlayerDaoTest {
 	@InjectMocks
 	private PlayerDaoImpl playerDao;
 
-	@InjectMocks
-	private GameDaoImpl gameDao;
-
 	private Player player1;
 	private Player player2;
 
@@ -41,20 +35,14 @@ public class PlayerDaoTest {
 	public void init() {
 		String playerTest1 = "PlayerTest1";
 		String playerTest2 = "PlayerTest2";
-		player1 = playerDao.initPlayer(playerTest1);
-		player2 = playerDao.initPlayer(playerTest2);
-		player1.getSet().setScoresPlayer2(new LinkedList<>());
-		player1.getSet().getScoresPlayer2().add(0);
+		player1 = playerDao.createPlayer(playerTest1);
+		player2 = playerDao.createPlayer(playerTest2);
 		player1.getSet().setPlayer2(player2);
 
 		Game game = new Game();
-		game.getPointsPlayer1().add(Point.P0);
-		game.getPointsPlayer2().add(Point.P0);
 		player1.getSet().addGame(game);
 
 		TieBreak tieBreak = new TieBreak();
-		tieBreak.addPointPlayer1(0);
-		tieBreak.addPointPlayer2(0);
 		tieBreak.setSet(player1.getSet());
 		player1.getSet().setTieBreak(tieBreak);
 
@@ -63,7 +51,7 @@ public class PlayerDaoTest {
 	@Test
 	public void testInitPlayer() {
 		String playerTest = "PlayerTest";
-		Player player = playerDao.initPlayer(playerTest);
+		Player player = playerDao.createPlayer(playerTest);
 		assertThat(player.getName()).isEqualTo(playerTest);
 		assertThat(player.getSet()).isNotNull();
 		assertThat(player.getSet().getPlayer1()).isEqualTo(player);

@@ -13,6 +13,7 @@ import com.projects.ach.model.Player;
 import com.projects.ach.model.Point;
 import com.projects.ach.model.Set;
 import com.projects.ach.model.TieBreak;
+import com.projects.ach.utils.TennisUtils;
 
 /**
  * @author ABDELCHAG
@@ -22,29 +23,21 @@ import com.projects.ach.model.TieBreak;
 public class PlayerDaoImpl implements IPlayerDao {
 
 	@Override
-	public Player initPlayer(String name) {
+	public Player createPlayer(String name) {
 		Player player = new Player();
 		player.setName(name);
-		player.getSet().getScoresPlayer1().add(0);
 		return player;
 	}
 
 	@Override
 	public void addPointWinnerGame(Player player) {
-		Game game = player.getSet().getGames().get(player.getSet().getGames().size() - 1);
+		Game game = player.getSet().getLastGame();
 
-		List<Point> pointsPlayerWon = null;
-		List<Point> pointsPlayerLoose = null;
-		if (game.getPlayer1().getName().equals(player.getName())) {
-			pointsPlayerWon = game.getPointsPlayer1();
-			pointsPlayerLoose = game.getPointsPlayer2();
-		} else {
-			pointsPlayerWon = game.getPointsPlayer2();
-			pointsPlayerLoose = game.getPointsPlayer1();
-		}
-
+		List<Point> pointsPlayerWon = TennisUtils.getPointsPlayerGame(game, player);
+		List<Point> pointsPlayerLoose = TennisUtils.getPointsOpponentGame(game, player);
 		Point lastPointWinner = pointsPlayerWon.get(pointsPlayerWon.size() - 1);
 		Point lastPointLooser = pointsPlayerLoose.get(pointsPlayerLoose.size() - 1);
+
 		if ((lastPointWinner == Point.P40 && lastPointLooser == Point.P40)
 				|| (lastPointWinner == Point.PDEUCE && lastPointLooser == Point.PDEUCE)) {
 			pointsPlayerWon.add(Point.PADV);
@@ -60,15 +53,8 @@ public class PlayerDaoImpl implements IPlayerDao {
 	@Override
 	public void addPointLooserGame(Player player) {
 		Game game = player.getSet().getGames().get(player.getSet().getGames().size() - 1);
-		List<Point> pointsPlayerLoose = null;
-		List<Point> pointsPlayerWon = null;
-		if (game.getPlayer1().getName().equals(player.getName())) {
-			pointsPlayerLoose = game.getPointsPlayer1();
-			pointsPlayerWon = game.getPointsPlayer2();
-		} else {
-			pointsPlayerLoose = game.getPointsPlayer2();
-			pointsPlayerWon = game.getPointsPlayer1();
-		}
+		List<Point> pointsPlayerLoose = TennisUtils.getPointsPlayerGame(game, player);
+		List<Point> pointsPlayerWon = TennisUtils.getPointsOpponentGame(game, player);
 
 		if (pointsPlayerWon.get(pointsPlayerWon.size() - 1) == Point.PDEUCE) {
 			pointsPlayerLoose.add(Point.PDEUCE);
@@ -76,29 +62,20 @@ public class PlayerDaoImpl implements IPlayerDao {
 			Point lastPointLooser = pointsPlayerLoose.get(pointsPlayerLoose.size() - 1);
 			pointsPlayerLoose.add(lastPointLooser);
 		}
+
 	}
 
 	@Override
 	public boolean isWinGame(Player player) {
 		Game game = player.getSet().getGames().get(player.getSet().getGames().size() - 1);
-		List<Point> pointPlayerWon = null;
-		if (game.getPlayer1().getName().equals(player.getName())) {
-			pointPlayerWon = game.getPointsPlayer1();
-		} else {
-			pointPlayerWon = game.getPointsPlayer2();
-		}
+		List<Point> pointPlayerWon = TennisUtils.getPointsPlayerGame(game, player);
 		return pointPlayerWon.get(pointPlayerWon.size() - 1).equals(Point.PWIN);
 	}
 
 	@Override
 	public void addScoreWinnerSet(Player player) {
 		Set set = player.getSet();
-		List<Integer> scoresWinner = null;
-		if (player.getName().equalsIgnoreCase(set.getPlayer1().getName())) {
-			scoresWinner = set.getScoresPlayer1();
-		} else {
-			scoresWinner = set.getScoresPlayer2();
-		}
+		List<Integer> scoresWinner = TennisUtils.getScorePlayerSet(set, player);
 		Integer lastScore = scoresWinner.get(scoresWinner.size() - 1);
 		scoresWinner.add(lastScore + 1);
 	}
@@ -106,12 +83,7 @@ public class PlayerDaoImpl implements IPlayerDao {
 	@Override
 	public void addScoreLooserSet(Player player) {
 		Set set = player.getSet();
-		List<Integer> scoresLooser = null;
-		if (player.getName().equalsIgnoreCase(set.getPlayer1().getName())) {
-			scoresLooser = set.getScoresPlayer1();
-		} else {
-			scoresLooser = set.getScoresPlayer2();
-		}
+		List<Integer> scoresLooser = TennisUtils.getScorePlayerSet(set, player);
 		Integer lastScore = scoresLooser.get(scoresLooser.size() - 1);
 		scoresLooser.add(lastScore);
 	}
@@ -125,11 +97,15 @@ public class PlayerDaoImpl implements IPlayerDao {
 		Integer lastScoreWinner = null;
 		Integer lastScoreLooser = null;
 		if (player.getName().equalsIgnoreCase(set.getPlayer1().getName())) {
-			lastScoreWinner = set.getScoresPlayer1().get(set.getScoresPlayer1().size() - 1);
-			lastScoreLooser = set.getScoresPlayer2().get(set.getScoresPlayer2().size() - 1);
+			lastScoreWinner = TennisUtils.getScorePlayerSet(set, set.getPlayer1())
+					.get(set.getScoresPlayer1().size() - 1);
+			lastScoreLooser = TennisUtils.getScorePlayerSet(set, set.getPlayer2())
+					.get(set.getScoresPlayer2().size() - 1);
 		} else {
-			lastScoreLooser = set.getScoresPlayer1().get(set.getScoresPlayer1().size() - 1);
-			lastScoreWinner = set.getScoresPlayer2().get(set.getScoresPlayer2().size() - 1);
+			lastScoreLooser = TennisUtils.getScorePlayerSet(set, set.getPlayer1())
+					.get(set.getScoresPlayer1().size() - 1);
+			lastScoreWinner = TennisUtils.getScorePlayerSet(set, set.getPlayer2())
+					.get(set.getScoresPlayer2().size() - 1);
 		}
 		return lastScoreWinner == 7 || (lastScoreWinner == 6 && lastScoreLooser <= 4);
 	}
@@ -137,13 +113,7 @@ public class PlayerDaoImpl implements IPlayerDao {
 	@Override
 	public void addPointWinnerTieBreak(Player player) {
 		TieBreak tieBreak = player.getSet().getTieBreak();
-
-		List<Integer> scoresWinner = null;
-		if (player.getName().equalsIgnoreCase(tieBreak.getPlayer1().getName())) {
-			scoresWinner = tieBreak.getScoresPlayer1();
-		} else {
-			scoresWinner = tieBreak.getScoresPlayer2();
-		}
+		List<Integer> scoresWinner = TennisUtils.getPointPlayerTieBreak(tieBreak, player);
 		Integer lastScore = scoresWinner.get(scoresWinner.size() - 1);
 		scoresWinner.add(lastScore + 1);
 
@@ -152,14 +122,9 @@ public class PlayerDaoImpl implements IPlayerDao {
 	@Override
 	public void addPointLooserTieBreak(Player player) {
 		TieBreak tieBreak = player.getSet().getTieBreak();
-		List<Integer> scoresWinner = null;
-		if (player.getName().equalsIgnoreCase(tieBreak.getPlayer1().getName())) {
-			scoresWinner = tieBreak.getScoresPlayer1();
-		} else {
-			scoresWinner = tieBreak.getScoresPlayer2();
-		}
-		Integer lastScore = scoresWinner.get(scoresWinner.size() - 1);
-		scoresWinner.add(lastScore);
+		List<Integer> scoreLooser = TennisUtils.getPointPlayerTieBreak(tieBreak, player);
+		Integer lastScore = scoreLooser.get(scoreLooser.size() - 1);
+		scoreLooser.add(lastScore);
 
 	}
 
@@ -169,11 +134,15 @@ public class PlayerDaoImpl implements IPlayerDao {
 		Integer lastScoreWinner = null;
 		Integer lastScoreLooser = null;
 		if (player.getName().equalsIgnoreCase(tieBreak.getPlayer1().getName())) {
-			lastScoreWinner = tieBreak.getScoresPlayer1().get(tieBreak.getScoresPlayer1().size() - 1);
-			lastScoreLooser = tieBreak.getScoresPlayer2().get(tieBreak.getScoresPlayer2().size() - 1);
+			lastScoreWinner = TennisUtils.getPointPlayerTieBreak(tieBreak, tieBreak.getPlayer1())
+					.get(tieBreak.getScoresPlayer1().size() - 1);
+			lastScoreLooser = TennisUtils.getPointPlayerTieBreak(tieBreak, tieBreak.getPlayer2())
+					.get(tieBreak.getScoresPlayer2().size() - 1);
 		} else {
-			lastScoreLooser = tieBreak.getScoresPlayer1().get(tieBreak.getScoresPlayer1().size() - 1);
-			lastScoreWinner = tieBreak.getScoresPlayer2().get(tieBreak.getScoresPlayer2().size() - 1);
+			lastScoreLooser = TennisUtils.getPointPlayerTieBreak(tieBreak, tieBreak.getPlayer1())
+					.get(tieBreak.getScoresPlayer1().size() - 1);
+			lastScoreWinner = TennisUtils.getPointPlayerTieBreak(tieBreak, tieBreak.getPlayer2())
+					.get(tieBreak.getScoresPlayer2().size() - 1);
 		}
 		return lastScoreWinner >= 7 && lastScoreWinner >= lastScoreLooser + 2;
 	}

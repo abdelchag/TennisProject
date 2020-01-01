@@ -18,6 +18,8 @@ public class TieBreak extends AbstractGame {
 	public TieBreak() {
 		scoresPlayer1 = new LinkedList<>();
 		scoresPlayer2 = new LinkedList<>();
+		addPointPlayer1(0);
+		addPointPlayer2(0);
 	}
 
 	public List<Integer> getScoresPlayer1() {

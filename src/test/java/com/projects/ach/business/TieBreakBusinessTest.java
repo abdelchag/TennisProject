@@ -56,22 +56,18 @@ public class TieBreakBusinessTest {
 		player2.setName(playerName2);
 
 		tieBreak = new TieBreak();
-		tieBreak.getScoresPlayer1().add(0);
-		tieBreak.getScoresPlayer2().add(0);
 
 		set = new Set();
 		set.setPlayer1(player1);
 		set.setPlayer2(player2);
 		set.setTieBreak(tieBreak);
 		tieBreak.setSet(set);
-		set.getScoresPlayer1().add(0);
-		set.getScoresPlayer2().add(0);
 
 	}
 
 	@Test
 	public void testStarttieBreak() {
-		when(tieBreakDao.initAbstractGame(set)).thenReturn(tieBreak);
+		when(tieBreakDao.createAbstractGame(set)).thenReturn(tieBreak);
 
 		TieBreak tieBreakInit = tieBreakBusiness.startGame(set);
 
@@ -84,8 +80,8 @@ public class TieBreakBusinessTest {
 
 	@Test
 	public void testWinPointPlayer1NottieBreak() {
-		when(tieBreakDao.getThisPlayer(tieBreak, playerName1)).thenReturn(player1);
-		when(tieBreakDao.getOtherPlayer(tieBreak, playerName1)).thenReturn(player2);
+		when(tieBreakDao.getPlayer(tieBreak, playerName1)).thenReturn(player1);
+		when(tieBreakDao.getOpponentPlayer(tieBreak, playerName1)).thenReturn(player2);
 		when(playerDao.isWinTieBreak(player1)).thenReturn(false);
 
 		tieBreakBusiness.winPoint(tieBreak, player1);
@@ -97,8 +93,8 @@ public class TieBreakBusinessTest {
 
 	@Test
 	public void testWinPointPlayer2NottieBreak() {
-		when(tieBreakDao.getThisPlayer(tieBreak, playerName2)).thenReturn(player2);
-		when(tieBreakDao.getOtherPlayer(tieBreak, playerName2)).thenReturn(player1);
+		when(tieBreakDao.getPlayer(tieBreak, playerName2)).thenReturn(player2);
+		when(tieBreakDao.getOpponentPlayer(tieBreak, playerName2)).thenReturn(player1);
 		when(playerDao.isWinTieBreak(player2)).thenReturn(false);
 
 		tieBreakBusiness.winPoint(tieBreak, player2);
@@ -110,8 +106,8 @@ public class TieBreakBusinessTest {
 
 	@Test
 	public void testWinPointPlayer1AndtieBreak() {
-		when(tieBreakDao.getThisPlayer(tieBreak, playerName1)).thenReturn(player1);
-		when(tieBreakDao.getOtherPlayer(tieBreak, playerName1)).thenReturn(player2);
+		when(tieBreakDao.getPlayer(tieBreak, playerName1)).thenReturn(player1);
+		when(tieBreakDao.getOpponentPlayer(tieBreak, playerName1)).thenReturn(player2);
 		when(playerDao.isWinTieBreak(player1)).thenReturn(true);
 
 		tieBreakBusiness.winPoint(tieBreak, player1);

@@ -24,6 +24,8 @@ public class Set {
 		games = new LinkedList<Game>();
 		scoresPlayer1 = new LinkedList<>();
 		scoresPlayer2 = new LinkedList<>();
+		addScorePlayer1(0);
+		addScorePlayer2(0);
 	}
 
 	public Player getPlayer1() {
@@ -98,12 +100,16 @@ public class Set {
 		this.scoresPlayer2.add(score);
 	}
 
-	public AbstractGame getCurrentGame() {
-		AbstractGame current = this.getGames().get(this.getGames().size() - 1);
+	public AbstractGame getCurrentAbstractGame() {
+		AbstractGame current = getLastGame();
 		if (this.getTieBreak() != null) {
 			current = this.getTieBreak();
 		}
 		return current;
+	}
+
+	public Game getLastGame() {
+		return this.getGames().get(this.getGames().size() - 1);
 	}
 
 }

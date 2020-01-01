@@ -21,7 +21,6 @@ import com.projects.ach.dao.impl.GameDaoImpl;
 import com.projects.ach.dao.impl.PlayerDaoImpl;
 import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
-import com.projects.ach.model.Point;
 import com.projects.ach.model.Set;
 
 /**
@@ -57,22 +56,18 @@ public class GameBusinessTest {
 		player2.setName(playerName2);
 
 		game = new Game();
-		game.getPointsPlayer1().add(Point.P0);
-		game.getPointsPlayer2().add(Point.P0);
 
 		set = new Set();
 		set.setPlayer1(player1);
 		set.setPlayer2(player2);
 		set.getGames().add(game);
 		game.setSet(set);
-		set.getScoresPlayer1().add(0);
-		set.getScoresPlayer2().add(0);
 
 	}
 
 	@Test
 	public void testStartGame() {
-		when(gameDao.initAbstractGame(set)).thenReturn(game);
+		when(gameDao.createAbstractGame(set)).thenReturn(game);
 
 		Game gameInit = gameBusiness.startGame(set);
 
@@ -85,8 +80,8 @@ public class GameBusinessTest {
 
 	@Test
 	public void testWinPointPlayer1NotGame() {
-		when(gameDao.getThisPlayer(game, playerName1)).thenReturn(player1);
-		when(gameDao.getOtherPlayer(game, playerName1)).thenReturn(player2);
+		when(gameDao.getPlayer(game, playerName1)).thenReturn(player1);
+		when(gameDao.getOpponentPlayer(game, playerName1)).thenReturn(player2);
 		when(playerDao.isWinGame(player1)).thenReturn(false);
 
 		gameBusiness.winPoint(game, player1);
@@ -98,8 +93,8 @@ public class GameBusinessTest {
 
 	@Test
 	public void testWinPointPlayer2NotGame() {
-		when(gameDao.getThisPlayer(game, playerName2)).thenReturn(player2);
-		when(gameDao.getOtherPlayer(game, playerName2)).thenReturn(player1);
+		when(gameDao.getPlayer(game, playerName2)).thenReturn(player2);
+		when(gameDao.getOpponentPlayer(game, playerName2)).thenReturn(player1);
 		when(playerDao.isWinGame(player2)).thenReturn(false);
 
 		gameBusiness.winPoint(game, player2);
@@ -111,8 +106,8 @@ public class GameBusinessTest {
 
 	@Test
 	public void testWinPointPlayer1AndGame() {
-		when(gameDao.getThisPlayer(game, playerName1)).thenReturn(player1);
-		when(gameDao.getOtherPlayer(game, playerName1)).thenReturn(player2);
+		when(gameDao.getPlayer(game, playerName1)).thenReturn(player1);
+		when(gameDao.getOpponentPlayer(game, playerName1)).thenReturn(player2);
 		when(playerDao.isWinGame(player1)).thenReturn(true);
 
 		gameBusiness.winPoint(game, player1);

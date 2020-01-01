@@ -18,6 +18,8 @@ public class Game extends AbstractGame {
 	public Game() {
 		pointsPlayer1 = new LinkedList<>();
 		pointsPlayer2 = new LinkedList<>();
+		addPointPlayer1(Point.P0);
+		addPointPlayer2(Point.P0);
 	}
 
 	public List<Point> getPointsPlayer1() {

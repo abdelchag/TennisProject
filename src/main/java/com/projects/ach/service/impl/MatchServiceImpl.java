@@ -40,8 +40,8 @@ public class MatchServiceImpl implements IMatchService {
 
 	@Override
 	public boolean scorePoint(Set set, Player scorer) {
-		boolean isTieBreak = set.getTieBreak() != null;
-		AbstractGame currentGame = set.getCurrentGame();
+		boolean isTieBreak = setBusiness.hasTieBreak(set);
+		AbstractGame currentGame = setBusiness.getCurrentAbstractGame(set);
 		IAbstractGameBusiness currentGameBusiness = isTieBreak ? tieBreakBusiness : gameBusiness;
 
 		currentGameBusiness.winPoint(currentGame, scorer);

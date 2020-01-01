@@ -14,7 +14,7 @@ import com.projects.ach.model.Player;
 @Repository
 public interface IPlayerDao {
 
-	Player initPlayer(String name);
+	Player createPlayer(String name);
 
 	void addPointWinnerGame(Player player);
 

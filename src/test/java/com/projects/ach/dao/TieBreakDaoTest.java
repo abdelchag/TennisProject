@@ -26,37 +26,37 @@ public class TieBreakDaoTest extends AbstractGameDaoInitTest {
 
 	@Test
 	public void testGetThisPlayerExist() {
-		TieBreak TieBreak = tieBreakDao.initAbstractGame(set);
-		Player player = tieBreakDao.getThisPlayer(TieBreak, playerName1);
+		TieBreak TieBreak = tieBreakDao.createAbstractGame(set);
+		Player player = tieBreakDao.getPlayer(TieBreak, playerName1);
 		assertThat(player).isNotNull();
 		assertThat(player).isEqualTo(player1);
 	}
 
 	@Test
 	public void testGetThisPlayerNotExist() {
-		TieBreak TieBreak = tieBreakDao.initAbstractGame(set);
-		Player player = tieBreakDao.getThisPlayer(TieBreak, "PlayerTest3");
+		TieBreak TieBreak = tieBreakDao.createAbstractGame(set);
+		Player player = tieBreakDao.getPlayer(TieBreak, "PlayerTest3");
 		assertThat(player).isNull();
 	}
 
 	@Test
 	public void testGetOtherPlayerExist() {
-		TieBreak TieBreak = tieBreakDao.initAbstractGame(set);
-		Player player = tieBreakDao.getOtherPlayer(TieBreak, playerName1);
+		TieBreak TieBreak = tieBreakDao.createAbstractGame(set);
+		Player player = tieBreakDao.getOpponentPlayer(TieBreak, playerName1);
 		assertThat(player).isNotNull();
 		assertThat(player).isEqualTo(player2);
 	}
 
 	@Test
 	public void testGetOtherPlayerNotExist() {
-		TieBreak TieBreak = tieBreakDao.initAbstractGame(set);
-		Player player = tieBreakDao.getThisPlayer(TieBreak, "PlayerTest3");
+		TieBreak TieBreak = tieBreakDao.createAbstractGame(set);
+		Player player = tieBreakDao.getPlayer(TieBreak, "PlayerTest3");
 		assertThat(player).isNull();
 	}
 
 	@Test
 	public void testPutWinner() {
-		TieBreak TieBreak = tieBreakDao.initAbstractGame(set);
+		TieBreak TieBreak = tieBreakDao.createAbstractGame(set);
 		tieBreakDao.putWinner(TieBreak, player1);
 
 		assertThat(TieBreak.getWinner()).isEqualTo(player1);

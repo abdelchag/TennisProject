@@ -31,14 +31,14 @@ public class TieBreakBusinessImpl implements IAbstractGameBusiness {
 
 	@Override
 	public TieBreak startGame(Set set) {
-		TieBreak tieBreak = (TieBreak) tieBreakDao.initAbstractGame(set);
+		TieBreak tieBreak = (TieBreak) tieBreakDao.createAbstractGame(set);
 		return tieBreak;
 	}
 
 	@Override
 	public void winPoint(AbstractGame abstractGame, Player playerWon) {
-		Player playerWonGame = tieBreakDao.getThisPlayer(abstractGame, playerWon.getName());
-		Player playerLooseGame = tieBreakDao.getOtherPlayer(abstractGame, playerWon.getName());
+		Player playerWonGame = tieBreakDao.getPlayer(abstractGame, playerWon.getName());
+		Player playerLooseGame = tieBreakDao.getOpponentPlayer(abstractGame, playerWon.getName());
 
 		playerDao.addPointWinnerTieBreak(playerWonGame);
 		playerDao.addPointLooserTieBreak(playerLooseGame);

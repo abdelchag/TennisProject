@@ -90,7 +90,8 @@ public class MatchServiceTest {
 	@Test
 	public void testScorePointGameSimple() {
 
-		// when(setBusiness.isPassToTieBreak(set)).thenReturn(false);
+		when(setBusiness.hasTieBreak(set)).thenReturn(false);
+		when(setBusiness.getCurrentAbstractGame(set)).thenReturn(game);
 
 		boolean isFinish = matchService.scorePoint(set, player1);
 
@@ -106,7 +107,8 @@ public class MatchServiceTest {
 	@Test
 	public void testScorePointTieBreakSimple() {
 
-		set.setTieBreak(tieBreak);
+		when(setBusiness.hasTieBreak(set)).thenReturn(true);
+		when(setBusiness.getCurrentAbstractGame(set)).thenReturn(tieBreak);
 
 		boolean isFinish = matchService.scorePoint(set, player1);
 
@@ -121,6 +123,10 @@ public class MatchServiceTest {
 
 	@Test
 	public void testScorePointGameWinnerStartGame() {
+
+		when(setBusiness.hasTieBreak(set)).thenReturn(false);
+		when(setBusiness.getCurrentAbstractGame(set)).thenReturn(game);
+
 		game.setWinner(player1);
 
 		when(setBusiness.isPassToTieBreak(set)).thenReturn(false);
@@ -138,6 +144,9 @@ public class MatchServiceTest {
 
 	@Test
 	public void testScorePointGameWinnerStartTieBreak() {
+		when(setBusiness.hasTieBreak(set)).thenReturn(false);
+		when(setBusiness.getCurrentAbstractGame(set)).thenReturn(game);
+
 		game.setWinner(player1);
 
 		when(setBusiness.isPassToTieBreak(set)).thenReturn(true);
@@ -155,6 +164,10 @@ public class MatchServiceTest {
 
 	@Test
 	public void testScorePointGameWinnerSetWinner() {
+
+		when(setBusiness.hasTieBreak(set)).thenReturn(false);
+		when(setBusiness.getCurrentAbstractGame(set)).thenReturn(game);
+
 		game.setWinner(player1);
 		set.setWinner(player1);
 
@@ -171,6 +184,9 @@ public class MatchServiceTest {
 
 	@Test
 	public void testScorePointTieBreakWinner() {
+
+		when(setBusiness.hasTieBreak(set)).thenReturn(true);
+		when(setBusiness.getCurrentAbstractGame(set)).thenReturn(tieBreak);
 
 		tieBreak.setWinner(player1);
 		set.setWinner(player1);

@@ -14,7 +14,7 @@ import com.projects.ach.model.Player;
 public abstract class AbstractGameDaoImpl implements IAbstractGameDao {
 
 	@Override
-	public Player getThisPlayer(AbstractGame game, String playerName) {
+	public Player getPlayer(AbstractGame game, String playerName) {
 		if (playerName.equalsIgnoreCase(game.getPlayer1().getName())) {
 			return game.getPlayer1();
 		} else if (playerName.equalsIgnoreCase(game.getPlayer2().getName())) {
@@ -24,7 +24,7 @@ public abstract class AbstractGameDaoImpl implements IAbstractGameDao {
 	}
 
 	@Override
-	public Player getOtherPlayer(AbstractGame game, String playerName) {
+	public Player getOpponentPlayer(AbstractGame game, String playerName) {
 		if (playerName.equalsIgnoreCase(game.getPlayer1().getName())) {
 			return game.getPlayer2();
 		} else if (playerName.equalsIgnoreCase(game.getPlayer2().getName())) {

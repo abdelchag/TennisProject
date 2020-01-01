@@ -10,6 +10,7 @@ import com.projects.ach.business.ISetBusiness;
 import com.projects.ach.dao.IAbstractGameDao;
 import com.projects.ach.dao.IPlayerDao;
 import com.projects.ach.dao.ISetDao;
+import com.projects.ach.model.AbstractGame;
 import com.projects.ach.model.Player;
 import com.projects.ach.model.Set;
 
@@ -31,17 +32,17 @@ public class SetBusinessImpl implements ISetBusiness {
 
 	@Override
 	public Set startSet(String playerName1, String playerName2) {
-		Player player1 = playerDao.initPlayer(playerName1);
-		Player player2 = playerDao.initPlayer(playerName2);
-		Set set = setDao.initSet(player1, player2);
-		gameDao.initAbstractGame(set);
+		Player player1 = playerDao.createPlayer(playerName1);
+		Player player2 = playerDao.createPlayer(playerName2);
+		Set set = setDao.createSet(player1, player2);
+		gameDao.createAbstractGame(set); // this ass game to set
 		return set;
 	}
 
 	@Override
 	public void scorePoint(Set set, Player playerWon) {
-		Player playerWonSet = setDao.getThisPlayer(set, playerWon.getName());
-		Player playerLooseSet = setDao.getOtherPlayer(set, playerWon.getName());
+		Player playerWonSet = setDao.getPlayer(set, playerWon.getName());
+		Player playerLooseSet = setDao.getOpponentPlayer(set, playerWon.getName());
 
 		playerDao.addScoreWinnerSet(playerWonSet);
 		playerDao.addScoreLooserSet(playerLooseSet);
@@ -53,9 +54,19 @@ public class SetBusinessImpl implements ISetBusiness {
 
 	@Override
 	public boolean isPassToTieBreak(Set set) {
-		Integer lastScore1 = set.getScoresPlayer1().get(set.getScoresPlayer1().size() - 1);
-		Integer lastScore2 = set.getScoresPlayer2().get(set.getScoresPlayer2().size() - 1);
+		Integer lastScore1 = setDao.getLastScorePlayer(set, set.getPlayer1());
+		Integer lastScore2 = setDao.getLastScorePlayer(set, set.getPlayer2());
 		return lastScore1 == 6 && lastScore2 == 6;
+	}
+
+	@Override
+	public boolean hasTieBreak(Set set) {
+		return setDao.hasTieBreak(set);
+	}
+
+	@Override
+	public AbstractGame getCurrentAbstractGame(Set set) {
+		return setDao.getCurrentAbstractGame(set);
 	}
 
 }

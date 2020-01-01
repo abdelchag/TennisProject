@@ -26,9 +26,9 @@ public class GameDaoTest extends AbstractGameDaoInitTest {
 	private GameDaoImpl gameDao;
 
 	@Test
-	public void testInitGame() {
+	public void testCreateGame() {
 
-		Game game = gameDao.initAbstractGame(set);
+		Game game = gameDao.createAbstractGame(set);
 
 		assertThat(game.getPlayer1().getName()).isEqualTo(playerName1);
 		assertThat(game.getPlayer2().getName()).isEqualTo(playerName2);
@@ -41,37 +41,37 @@ public class GameDaoTest extends AbstractGameDaoInitTest {
 
 	@Test
 	public void testGetThisPlayerExist() {
-		Game game = gameDao.initAbstractGame(set);
-		Player player = gameDao.getThisPlayer(game, playerName1);
+		Game game = gameDao.createAbstractGame(set);
+		Player player = gameDao.getPlayer(game, playerName1);
 		assertThat(player).isNotNull();
 		assertThat(player).isEqualTo(player1);
 	}
 
 	@Test
 	public void testGetThisPlayerNotExist() {
-		Game game = gameDao.initAbstractGame(set);
-		Player player = gameDao.getThisPlayer(game, "PlayerTest3");
+		Game game = gameDao.createAbstractGame(set);
+		Player player = gameDao.getPlayer(game, "PlayerTest3");
 		assertThat(player).isNull();
 	}
 
 	@Test
 	public void testGetOtherPlayerExist() {
-		Game game = gameDao.initAbstractGame(set);
-		Player player = gameDao.getOtherPlayer(game, playerName1);
+		Game game = gameDao.createAbstractGame(set);
+		Player player = gameDao.getOpponentPlayer(game, playerName1);
 		assertThat(player).isNotNull();
 		assertThat(player).isEqualTo(player2);
 	}
 
 	@Test
 	public void testGetOtherPlayerNotExist() {
-		Game game = gameDao.initAbstractGame(set);
-		Player player = gameDao.getThisPlayer(game, "PlayerTest3");
+		Game game = gameDao.createAbstractGame(set);
+		Player player = gameDao.getPlayer(game, "PlayerTest3");
 		assertThat(player).isNull();
 	}
 
 	@Test
 	public void testPutWinner() {
-		Game game = gameDao.initAbstractGame(set);
+		Game game = gameDao.createAbstractGame(set);
 		gameDao.putWinner(game, player1);
 
 		assertThat(game.getWinner()).isEqualTo(player1);

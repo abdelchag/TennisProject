@@ -16,11 +16,11 @@ import com.projects.ach.model.Set;
 @Repository
 public interface IAbstractGameDao {
 
-	AbstractGame initAbstractGame(Set set);
+	AbstractGame createAbstractGame(Set set);
 
-	Player getThisPlayer(AbstractGame game, String playerName);
+	Player getPlayer(AbstractGame game, String playerName);
 
-	Player getOtherPlayer(AbstractGame game, String playerName);
+	Player getOpponentPlayer(AbstractGame game, String playerName);
 
 	void putWinner(AbstractGame game, Player player);
 }

@@ -5,6 +5,7 @@ package com.projects.ach.dao;
 
 import org.springframework.stereotype.Repository;
 
+import com.projects.ach.model.AbstractGame;
 import com.projects.ach.model.Game;
 import com.projects.ach.model.Player;
 import com.projects.ach.model.Set;
@@ -16,14 +17,20 @@ import com.projects.ach.model.Set;
 @Repository
 public interface ISetDao {
 
-	Set initSet(Player player1, Player player2);
+	Set createSet(Player player1, Player player2);
 
 	void putWinner(Set set, Player playerWon);
 
 	void addNewGame(Set set, Game game);
 
-	Player getThisPlayer(Set set, String playerName);
+	Player getPlayer(Set set, String playerName);
 
-	Player getOtherPlayer(Set set, String playerName);
+	Player getOpponentPlayer(Set set, String playerName);
+
+	Integer getLastScorePlayer(Set set, Player player);
+
+	boolean hasTieBreak(Set set);
+
+	AbstractGame getCurrentAbstractGame(Set set);
 
 }
